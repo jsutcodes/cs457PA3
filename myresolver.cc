@@ -289,8 +289,16 @@ using std::endl;
         dnsANSection+=stop;
         printf("CNAME: %s\t", DNSAddRecords[i].name);
 
-        printf("Address: %s\n", DNSAddRecords[i].rdata);
-      
+        if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x04) // ipadress found
+        {
+
+            DNSAddRecords[i].rdata = (unsigned char *) ReadIPv4Address(dnsANSection,buffer,&stop);
+            dnsANSection+=4;
+	    
+            printf("Address: %s\n", DNSAddRecords[i].rdata);
+        
+        }
+
       }
     }
     
