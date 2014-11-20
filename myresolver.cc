@@ -254,8 +254,7 @@ using std::endl;
 	
 	
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
-        if(ntohs(DNSNameServers[i].resource->RDLENGTH)!=0x04) // not an ipadress its a cname????
-        {
+
             DNSNameServers[i].rdata = ReadName(dnsANSection,buffer,&stop);
             dnsANSection+=stop;
             printf("NAME: %s\t", DNSNameServers[i].name);
@@ -267,7 +266,6 @@ using std::endl;
             printf("CNAME: %s\n", DNSNameServers[i].rdata);
             //sendPacket((const char *)DNSNameServers[i].rdata);
             
-        }
       }
     }
     
