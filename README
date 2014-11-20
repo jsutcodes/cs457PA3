@@ -1,0 +1,41 @@
+=========================================================================
+README
+PROJECT 3: DNS RESOLVER
+JORDAN SUTTON - MATTHEW FRAHRY
+=========================================================================
+TO THE GRADER:
+=========================================================================
+
+
+
+
+=========================================================================
+TO RUN THE PROGRAM: 
+=========================================================================
+(type the following in a terminal window)
+
+>myresolver www.nlnetlabs.nl AAAA
+....
+
+=========================================================================
+DESCRIPTION OF TASK: 
+=========================================================================
+Write a program that implements a DNS resolver that will look up IPv4 (A records)
+or IPv6 (AAAA records) along with their digital signitures. 
+
+When running the program:
+the resolver then issues a series or iterative queries to obtain the IPv6 or IPv4 addresses along with any DNSSEC signitures (RRSIG records)
+for the hostname.
+
+NOTE: not all domain names have DNSSEC. 
+
+
+
+
+=========================================================================
+CHECKLIST: 
+=========================================================================
+
+
+=========================================================================
+=========================================================================
