@@ -254,20 +254,43 @@ using std::endl;
 	
 	
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
-        if(ntohs(DNSNameServers[i].resource->RDLENGTH)!=0x04) // not an ipadress its a cname????
-        {
-            DNSNameServers[i].rdata = ReadName(dnsANSection,buffer,&stop);
-            dnsANSection+=stop;
-            printf("NAME: %s\t", DNSNameServers[i].name);
 
-            // printf("name is %s\n", DNSAnswers[i].name);
+        DNSNameServers[i].rdata = ReadName(dnsANSection,buffer,&stop);
+        dnsANSection+=stop;
+        printf("NAME: %s\t", DNSNameServers[i].name);
+
+        // printf("name is %s\n", DNSAnswers[i].name);
             // printf("dnsANSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
             
             //This is looking at a pointer in the middle of our Name Server
-            printf("CNAME: %s\n", DNSNameServers[i].rdata);
+        printf("CNAME: %s\n", DNSNameServers[i].rdata);
             //sendPacket((const char *)DNSNameServers[i].rdata);
             
-        }
+      }
+      
+      
+      DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
+      
+      for(int i = 0; i < ntohs(dns->ARCOUNT); i++){
+      
+        // printf("===========ANSWER %d: ===========\n",i);
+        DNSAddRecords[i].name=ReadName(dnsANSection, buffer, &stop);
+        // printf("%s\n",qname );
+        dnsANSection+=stop;
+        DNSAddRecords[i].resource = (R_DATA*)(dnsANSection);
+        // int prevStop = stop;
+        // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
+        dnsANSection+=sizeof(R_DATA)-2;
+	
+	
+        // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
+
+        DNSAddRecords[i].rdata = ReadName(dnsANSection,buffer,&stop);
+        dnsANSection+=stop;
+        printf("CNAME: %s\t", DNSAddRecords[i].name);
+
+        printf("Address: %s\n", DNSAddRecords[i].rdata);
+      
       }
     }
     
