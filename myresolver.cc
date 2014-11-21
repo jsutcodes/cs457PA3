@@ -378,6 +378,8 @@ char* ReadIPv4Address(unsigned char* reader,unsigned char*buffer, int*count)
 char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
 {
     char *IP_addr;
+    int addrcounter = 0;
+    int counter = 0;
 
     IP_addr = (char *)malloc(40);
 
@@ -387,14 +389,22 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
       // and print out the ipv6 name 
         char str[9];
         int num = (unsigned int)*reader;
-        printf("reader is: %02X\n",*reader);
+        printf("%02X",*reader);
         sprintf(str, "%02X", num);
         //printf("%s", str);
         reader++;
-        
+  	for(int j = 0; j< strlen(str);j++ )
+        {
+          IP_addr[addrcounter] = str[j];
+          counter++;
+          addrcounter++;
+        }
+          
         if(i > 0 && i < 7 && i % 2 == 0)
         {
             printf(":");
+            IP_addr[addrcounter] = ':';
+            addrcounter++;
         }
     }
     //printf("\n\nAddress: %s\n\n", IP_addr);
