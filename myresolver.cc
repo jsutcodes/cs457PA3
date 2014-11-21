@@ -384,16 +384,17 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
       // and print out the ipv6 name 
         char str[9];
         int num = (unsigned int)*reader;
+        printf("reader is: \n",*reader+i);
         sprintf(str, "%d", num);
-        printf("%02x", str);
+        //printf("%02x", str);
         reader++;
         if(i > 0 && i < 15 && i % 2 == 0)
         {
-            printf(":");
+           // printf(":");
         }
     }
     printf("\n\nAddress: %s\n\n", IP_addr);
-    return NULL;
+    return IP_addr;
 
 }
 /****************************************************************
