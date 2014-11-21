@@ -280,8 +280,9 @@ using std::endl;
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
       for(int i = 0; i < 2; i++){//ntohs(dns->ARCOUNT); i++){
-      
-        // printf("===========ANSWER %d: ===========\n",i);
+        
+        
+        printf("===========Additional %d: ===========\n",i);
         DNSAddRecords[i].name=ReadName(dnsANSection, buffer, &stop);
         // printf("%s\n",qname );
         
