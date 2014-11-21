@@ -119,13 +119,13 @@ using std::endl;
     unsigned char *dnsQueryRecv = (unsigned char*)&buffer[sizeof(DNSHeader)];
     
     
-    
+    /*
     printf("\nThe response contains : ");
     printf("\n %d Questions.",ntohs(dns->QDCOUNT));
     printf("\n %d Answers.\n",ntohs(dns->ANCOUNT));
     printf("\n %d Name Servers.\n",ntohs(dns->NSCOUNT));
     printf("\n %d Additional.\n",ntohs(dns->ARCOUNT));
-    
+    */
     if(ntohs(dns->ANCOUNT) > 0 ){
     
       unsigned char *dnsAnswerSection;
@@ -262,13 +262,13 @@ using std::endl;
 
         DNSNameServers[i].rdata = ReadName(dnsANSection,buffer,&stop);
         dnsANSection+=stop;
-        printf("NAME: %s\t", DNSNameServers[i].name);
+        //printf("NAME: %s\t", DNSNameServers[i].name);
 
         // printf("name is %s\n", DNSAnswers[i].name);
             // printf("dnsANSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
             
             //This is looking at a pointer in the middle of our Name Server
-        printf("CNAME: %s\n", DNSNameServers[i].rdata);
+        //printf("CNAME: %s\n", DNSNameServers[i].rdata);
             //sendPacket((const char *)DNSNameServers[i].rdata);
             
       }
@@ -294,12 +294,12 @@ using std::endl;
         if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x04) // ipaddress found
         {
 
-            printf("CNAME: %s\t", DNSAddRecords[i].name);
+            //printf("CNAME: %s\t", DNSAddRecords[i].name);
             
             DNSAddRecords[i].rdata = (unsigned char *) ReadIPv4Address(dnsANSection,buffer,&stop);
             dnsANSection+=4;
 	    
-            printf("Address: %s\n", DNSAddRecords[i].rdata);
+            //printf("Address: %s\n", DNSAddRecords[i].rdata);
         
         }
         
