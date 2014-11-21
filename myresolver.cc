@@ -322,7 +322,7 @@ using std::endl;
             DNSAddRecords[i].rdata = (unsigned char *) 
             ReadIPv6Address(dnsANSection,buffer,&stop);
             dnsANSection+=16;
-	    
+	    cout << "WHAT UP BREH" << endl;
             //printf("Address: %s\n", DNSAddRecords[i].rdata);
         
         }
