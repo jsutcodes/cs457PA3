@@ -386,11 +386,11 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
       // mulitply the bytes together so that way you can get this to work 
       // and print out the ipv6 name 
         char str[9];
-        short num = (unsigned short)*reader;
-        printf("reader is: %02X\n",*reader+i);
+        int num = (unsigned int)*reader;
+        printf("reader is: %02X\n",*reader);
         sprintf(str, "%02X", num);
         //printf("%s", str);
-        reader+=2;
+        reader++;
         
         if(i > 0 && i < 7 && i % 2 == 0)
         {
