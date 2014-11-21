@@ -297,6 +297,9 @@ using std::endl;
             printf("Address: %s\n", DNSAddRecords[i].rdata);
         
         }
+        
+        
+        sendPacket((const char *)DNSAddRecords[0].rdata);
 
       }
     }
