@@ -289,33 +289,7 @@ using std::endl;
         if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x04) // ipaddress found
         {
 
-	    
-            switch(ntohs(DNSAddRecords[i].resource->TYPE))
-            {
-                case 0x0001:
-                    printf("A\t");
-                break;
-                case 0x1100:
-                    printf("AAAA\t");
-                break;
-                // case 0x0005:
-                //     printf("CNAME\t");
-                // break;
-            }
-            
-            printf("%d\t", ntohl(DNSAddRecords[i].resource->TTL));
-            
-           // dnsANSection-=2;
-            /*
-            printf("Bytes that will be read are:");
-            for (int q = 0; q < 4;q++){
-            
-              printf("%02X\n", *(dnsANSection));
-              dnsANSection+=1;
-            }
-            */
-            
-            
+            printf("CNAME: %s\t", DNSNameServers[i].name);
             
             DNSAddRecords[i].rdata = (unsigned char *) ReadIPv4Address(dnsANSection,buffer,&stop);
             dnsANSection+=4;
