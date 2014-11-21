@@ -312,7 +312,7 @@ using std::endl;
             //printf("CNAME: %s\t", DNSAddRecords[i].name);
             
             //DNSAddRecords[i].rdata = (unsigned char *) 
-            ReadIPv6Address(dnsANSection,buffer,&stop);
+            //ReadIPv6Address(dnsANSection,buffer,&stop);
             dnsANSection+=16;
 	    
             //printf("\n\nAddress: %s\n\n", DNSAddRecords[i].rdata);
