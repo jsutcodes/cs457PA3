@@ -297,12 +297,12 @@ using std::endl;
         if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x04) // ipaddress found
         {
 
-            //printf("CNAME: %s\t", DNSAddRecords[i].name);
+            printf("CNAME: %s\t", DNSAddRecords[i].name);
             
             DNSAddRecords[i].rdata = (unsigned char *) ReadIPv4Address(dnsANSection,buffer,&stop);
             dnsANSection+=4;
 	    
-            //printf("Address: %s\n", DNSAddRecords[i].rdata);
+            printf("Address: %s\n", DNSAddRecords[i].rdata);
         
         }
         
