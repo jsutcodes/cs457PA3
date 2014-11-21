@@ -271,7 +271,7 @@ using std::endl;
       
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
-      for(int i = 0; i < ntohs(dns->ARCOUNT); i++){
+      for(int i = 0; i < 1; i++){//ntohs(dns->ARCOUNT); i++){
       
         // printf("===========ANSWER %d: ===========\n",i);
         DNSAddRecords[i].name=ReadName(dnsANSection, buffer, &stop);
