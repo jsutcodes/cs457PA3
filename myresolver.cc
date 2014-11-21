@@ -383,7 +383,7 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
 
     IP_addr = (char *)malloc(40);
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 16; i++)
     {
       // mulitply the bytes together so that way you can get this to work 
       // and print out the ipv6 name 
@@ -400,14 +400,14 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
           addrcounter++;
         }
           
-        if(i > 0 && i < 7 && i % 2 == 0)
+        if(i < 15 && i%2==0)
         {
             printf(":");
             IP_addr[addrcounter] = ':';
             addrcounter++;
         }
     }
-    //printf("\n\nAddress: %s\n\n", IP_addr);
+    printf("\n\nAddress: %s\n\n", IP_addr);
     return IP_addr;
 
 }
