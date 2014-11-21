@@ -385,7 +385,7 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
         char str[9];
         int num = (unsigned int)*reader;
         printf("reader is: \n",*reader+i);
-        sprintf(str, "%d", num);
+        //sprintf(str, "%d", num);
         //printf("%02x", str);
         reader++;
         if(i > 0 && i < 15 && i % 2 == 0)
@@ -393,7 +393,7 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
            // printf(":");
         }
     }
-    printf("\n\nAddress: %s\n\n", IP_addr);
+    //printf("\n\nAddress: %s\n\n", IP_addr);
     return IP_addr;
 
 }
