@@ -390,7 +390,7 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
         printf("reader is: %02X\n",*reader+i);
         sprintf(str, "%02X", num);
         //printf("%s", str);
-        reader++;
+        reader+=2;
         
         if(i > 0 && i < 7 && i % 2 == 0)
         {
