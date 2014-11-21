@@ -208,6 +208,7 @@ using std::endl;
             // printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
             // printf("CNAME: %s\n", DNSAnswers[i].rdata);
         }
+        
         else if (ntohs(DNSAnswers[i].resource->RDLENGTH)==0x04) // ipadress found
         {
             printf("%s\t", DNSAnswers[i].name);
@@ -278,7 +279,7 @@ using std::endl;
       
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
-      for(int i = 0; i < 1; i++){//ntohs(dns->ARCOUNT); i++){
+      for(int i = 0; i < 2; i++){//ntohs(dns->ARCOUNT); i++){
       
         // printf("===========ANSWER %d: ===========\n",i);
         DNSAddRecords[i].name=ReadName(dnsANSection, buffer, &stop);
@@ -302,6 +303,18 @@ using std::endl;
             dnsANSection+=4;
 	    
             //printf("Address: %s\n", DNSAddRecords[i].rdata);
+        
+        }
+        
+        if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x16) // ipaddress found
+        {
+
+            //printf("CNAME: %s\t", DNSAddRecords[i].name);
+            
+            DNSAddRecords[i].rdata = (unsigned char *) ReadIPv6Address(dnsANSection,buffer,&stop);
+            dnsANSection+=16;
+	    
+            printf("\n\nAddress: %s\n\n", DNSAddRecords[i].rdata);
         
         }
         
@@ -365,7 +378,7 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
 
     IP_addr = (char *)malloc(24);
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 16; i++)
     {
       // mulitply the bytes together so that way you can get this to work 
       // and print out the ipv6 name 
@@ -374,7 +387,7 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
         sprintf(str, "%d", num);
         printf("%02x", str);
         reader++;
-        if(i<3)
+        if(i > 0 && i < 15 && i % 2 == 0)
         {
             printf(":");
         }
