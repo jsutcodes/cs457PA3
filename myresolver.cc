@@ -310,7 +310,7 @@ using std::endl;
             printf("%d\t", ntohl(DNSAddRecords[i].resource->TTL));
             
             printf("Bytes that will be read are:");
-            for (int q = 0; q < 4;q++){printf("%02X\n");}
+            for (int q = 0; q < 4;q++){printf("%02X\n",*dnsANSection+q);}
             
             
             
