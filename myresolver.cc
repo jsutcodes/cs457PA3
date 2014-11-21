@@ -306,7 +306,7 @@ using std::endl;
         
         }
         
-        if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x16) // ipaddress found
+        if (ntohs(DNSAddRecords[i].resource->RDLENGTH)== 16) // ipv6 found. 0x10 == 16 bytes
         {
 
             printf("CNAME: %s\t", DNSAddRecords[i].name);
