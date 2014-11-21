@@ -54,6 +54,7 @@ using std::endl;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = inet_addr(destAddress);
     // cout << DNSAddress << " is the DNS address" << endl;
+    cout << "Dest Address: " << destAddress << endl;
     address.sin_port = htons(53);
 
     //set up the DNS Structure to standard queries
