@@ -118,6 +118,14 @@ using std::endl;
     DNSHeader *dnsHeadRecv = (DNSHeader*)&buffer;
     unsigned char *dnsQueryRecv = (unsigned char*)&buffer[sizeof(DNSHeader)];
     
+    
+    
+    printf("\nThe response contains : ");
+    printf("\n %d Questions.",ntohs(dns->QDCOUNT));
+    printf("\n %d Answers.\n",ntohs(dns->ANCOUNT));
+    printf("\n %d Name Servers.\n",ntohs(dns->NSCOUNT));
+    printf("\n %d Additional.\n",ntohs(dns->ARCOUNT));
+    
     if(ntohs(dns->ANCOUNT) > 0 ){
     
       unsigned char *dnsAnswerSection;
@@ -159,9 +167,6 @@ using std::endl;
     // look at the website above to try and figure out how to get the packet. where is this pointer at?
 
 
-      //printf("\nThe response contains : ");
-      //printf("\n %d Questions.",ntohs(dns->QDCOUNT));
-      //printf("\n %d Answers.\n",ntohs(dns->ANCOUNT));
     
       for (int i = 0; i < ntohs(dns->ANCOUNT); ++i)
       {
