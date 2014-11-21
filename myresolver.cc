@@ -400,7 +400,7 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
           addrcounter++;
         }
           
-        if(i < 15 && i%2==0)
+        if(i < 15 && i%2==1)
         {
             printf(":");
             IP_addr[addrcounter] = ':';
