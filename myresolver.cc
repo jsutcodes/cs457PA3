@@ -192,14 +192,14 @@ using std::endl;
             printf("IN\t");
             switch(ntohs(DNSAnswers[i].resource->TYPE))
             {
-                case 0x0001:
+                case 1:
                     printf("A\t");
                 break;
-                case 0x1100:
+                case 28:
                     printf("AAAA\t");
                     
                 break;
-                case 0x0005:
+                case 5:
                     printf("CNAME\t%s\n",DNSAnswers[i].rdata);
                     URL = (char *)DNSAnswers[i].rdata;
                     sendPacket("192.58.128.30");
