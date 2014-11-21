@@ -181,7 +181,6 @@ using std::endl;
         // int prevStop = stop;
         // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
         dnsAnswerSection+=sizeof(R_DATA)-2;
-
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
         if(ntohs(DNSAnswers[i].resource->RDLENGTH)!=0x04) // not an ipadress its a cname????
         {
@@ -207,7 +206,7 @@ using std::endl;
             }
 
             // printf("name is %s\n", DNSAnswers[i].name);
-            // printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
+            printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
             // printf("CNAME: %s\n", DNSAnswers[i].rdata);
         }
         
