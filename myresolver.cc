@@ -182,7 +182,7 @@ using std::endl;
         // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
         dnsAnswerSection+=sizeof(R_DATA)-2;
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
-        if(ntohs(DNSAnswers[i].resource->RDLENGTH)!=0x04) // not an ipadress its a cname????
+        if(ntohs(DNSAnswers[i].resource->RDLENGTH)!=4 || ntohs(DNSAnswers[i].resource->RDLENGTH)!=16) // not an ipadress its a cname????
         {
             DNSAnswers[i].rdata = ReadName(dnsAnswerSection,buffer,&stop);
             dnsAnswerSection+=stop;
@@ -210,7 +210,7 @@ using std::endl;
             // printf("CNAME: %s\n", DNSAnswers[i].rdata);
         }
         
-        else if (ntohs(DNSAnswers[i].resource->RDLENGTH)==0x04) // ipadress found
+        else if (ntohs(DNSAnswers[i].resource->RDLENGTH)==4) // ipadress found
         {
             printf("%s\t", DNSAnswers[i].name);
             printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
