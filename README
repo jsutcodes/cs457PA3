@@ -6,6 +6,14 @@ JORDAN SUTTON - MATTHEW FRAHRY
 TO THE GRADER:
 =========================================================================
 
+Still trying to work on the rrsig, but it should work for ipv4 and ipv6
+
+
+NOTICE:
+
+There was one case, we emailed you about. we ran into a MNAME type. I figured we 
+didn't need to worry about this case. 
+
 
 
 
@@ -35,13 +43,34 @@ NOTE: not all domain names have DNSSEC.
 =========================================================================
 CHECKLIST: 
 =========================================================================
+-sending/Reading packets
+-iteratively working
+-Ipv4
+-IPv6
+
 
 
 =========================================================================
-=========================================================================
-
 TODO:
-RRSIG
-Timeout
-Picking correct servers to hit
-Whatever else is on the assignment sheet
+=========================================================================
+-RRSIG:
+    What we need to do is look at our packet and how it is sent
+    in the additinal section we need to set a flag (see RRSIG wireshark example) Then just read the answer if it is 46. 
+
+-Timeout:
+
+-Picking correct servers to hit:
+    (create a function that takes the string and converts it into the byte[]
+     so that way we can check to make sure that they are the same ip from the packet??????)
+
+
+-Testing:
+    - what does our code do for an NXDOMAIN
+    -domain exists but are not signed????
+    -the a or AAAA exist but are not signed
+    -if original name is a cname continue looking or chain the cnames 
+    -if server is down try a different server -- how to check for this?
+    -etc. look at specs.
+
+Make sure to run the commands for (wwww.nlnetlabs.com AAAA and www.cnn.com A)
+and put them into a file named "OutputFile"
