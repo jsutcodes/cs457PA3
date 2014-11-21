@@ -286,7 +286,7 @@ using std::endl;
       
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
-      for(int i = 0; i < ntohs(dns->ARCOUNT); i++){
+      for(int i = 0; i < 1; i++){//ntohs(dns->ARCOUNT); i++){
         
         
         //printf("===========Additional %d: ===========\n",i);
@@ -329,7 +329,7 @@ using std::endl;
         //printf("dnsAddRecords:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAddRecords[i].resource->TYPE),ntohs(DNSAddRecords[i].resource->CLASS),ntohl(DNSAddRecords[i].resource->TTL),ntohs(DNSAddRecords[i].resource->RDLENGTH));
         
         
-        //sendPacket((const char *)DNSAddRecords[0].rdata);
+        sendPacket((const char *)DNSAddRecords[0].rdata);
 
       }
     }
