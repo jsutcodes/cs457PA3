@@ -137,8 +137,8 @@ using std::endl;
       //printf("Question is: %s\n",dnsQueryRecv );
 
       //printf("DNS QUESTION SECTION \n"); 
-      printf("QTYPE %d \n",ntohs(dnsQuestionSection->QTYPE));
-      printf("QCLASS %d\n",ntohs(dnsQuestionSection->QCLASS));
+      //printf("QTYPE %d \n",ntohs(dnsQuestionSection->QTYPE));
+      //printf("QCLASS %d\n",ntohs(dnsQuestionSection->QCLASS));
 
       //NOW WE ARE AT THE R_DATA PART
       DNS_ResRec DNSAnswers[(dns->ANCOUNT)];
@@ -206,7 +206,7 @@ using std::endl;
             }
 
             // printf("name is %s\n", DNSAnswers[i].name);
-            printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
+            //printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
             // printf("CNAME: %s\n", DNSAnswers[i].rdata);
         }
         
