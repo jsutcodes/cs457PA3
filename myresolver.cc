@@ -238,7 +238,7 @@ using std::endl;
     }
     
 
-    else if(ntohs(dns->NSCOUNT) > 0 && packetCount < 2){
+    else if(ntohs(dns->NSCOUNT) > 0 ){
       packetCount += 1;
       unsigned char *dnsANSection;
       dnsANSection = &buffer[sizeof(DNSHeader) + (strlen((const char *)qname) +1) + sizeof(DNSQuestion)];
