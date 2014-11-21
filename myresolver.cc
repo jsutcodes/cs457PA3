@@ -279,7 +279,7 @@ using std::endl;
       
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
-      for(int i = 0; i < 2; i++){//ntohs(dns->ARCOUNT); i++){
+      for(int i = 0; i < ntohs(dns->ARCOUNT); i++){
         
         
         printf("===========Additional %d: ===========\n",i);
@@ -315,11 +315,11 @@ using std::endl;
             ReadIPv6Address(dnsANSection,buffer,&stop);
             dnsANSection+=16;
 	    
-            printf("\n\nAddress: %s\n\n", DNSAddRecords[i].rdata);
+            //printf("\n\nAddress: %s\n\n", DNSAddRecords[i].rdata);
         
         }
         
-        printf("dnsAddRecords:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAddRecords[i].resource->TYPE),ntohs(DNSAddRecords[i].resource->CLASS),ntohl(DNSAddRecords[i].resource->TTL),ntohs(DNSAddRecords[i].resource->RDLENGTH));
+        //printf("dnsAddRecords:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAddRecords[i].resource->TYPE),ntohs(DNSAddRecords[i].resource->CLASS),ntohl(DNSAddRecords[i].resource->TTL),ntohs(DNSAddRecords[i].resource->RDLENGTH));
         
         
         //sendPacket((const char *)DNSAddRecords[0].rdata);
@@ -389,7 +389,7 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
       // and print out the ipv6 name 
         char str[9];
         int num = (unsigned int)*reader;
-        printf("%02X",*reader);
+        //printf("%02X",*reader);
         sprintf(str, "%02X", num);
         //printf("%s", str);
         reader++;
@@ -402,12 +402,12 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
           
         if(i < 15 && i%2==1)
         {
-            printf(":");
+            //printf(":");
             IP_addr[addrcounter] = ':';
             addrcounter++;
         }
     }
-    printf("\n\nAddress: %s\n\n", IP_addr);
+    //printf("\n\nAddress: %s\n\n", IP_addr);
     return IP_addr;
 
 }
