@@ -376,7 +376,7 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
 {
     char *IP_addr;
 
-    IP_addr = (char *)malloc(24);
+    IP_addr = (char *)malloc(40);
 
     for (int i = 0; i < 16; i++)
     {
