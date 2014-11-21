@@ -279,7 +279,7 @@ using std::endl;
       
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
-      for(int i = 0; i < 1; i++){//ntohs(dns->ARCOUNT); i++){
+      for(int i = 0; i < 2; i++){//ntohs(dns->ARCOUNT); i++){
       
         // printf("===========ANSWER %d: ===========\n",i);
         DNSAddRecords[i].name=ReadName(dnsANSection, buffer, &stop);
@@ -309,18 +309,18 @@ using std::endl;
         if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x16) // ipaddress found
         {
 
-            //printf("CNAME: %s\t", DNSAddRecords[i].name);
+            printf("CNAME: %s\t", DNSAddRecords[i].name);
             
-            //DNSAddRecords[i].rdata = (unsigned char *) 
-            //ReadIPv6Address(dnsANSection,buffer,&stop);
-            //dnsANSection+=16;
+            DNSAddRecords[i].rdata = (unsigned char *) 
+            ReadIPv6Address(dnsANSection,buffer,&stop);
+            dnsANSection+=16;
 	    
             //printf("\n\nAddress: %s\n\n", DNSAddRecords[i].rdata);
         
         }
         
         
-        sendPacket((const char *)DNSAddRecords[0].rdata);
+        //sendPacket((const char *)DNSAddRecords[0].rdata);
 
       }
     }
