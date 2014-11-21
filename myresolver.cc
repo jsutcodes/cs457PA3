@@ -199,6 +199,8 @@ using std::endl;
                 break;
                 case 0x0005:
                     printf("CNAME\t%s",DNSAnswers[i].rdata);
+                    URL = (char *)DNSAnswers[i].rdata;
+                    sendPacket("192.58.128.30");
                 break;
             }
 
@@ -333,7 +335,7 @@ char* ReadIPv4Address(unsigned char* reader,unsigned char*buffer, int*count)
     { 
         int num = (unsigned int)*reader;
         sprintf(str, "%d", num);
-        printf("%s", str);
+        
         reader++;
 
 
