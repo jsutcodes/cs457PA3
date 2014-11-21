@@ -276,6 +276,7 @@ using std::endl;
         // printf("===========ANSWER %d: ===========\n",i);
         DNSAddRecords[i].name=ReadName(dnsANSection, buffer, &stop);
         // printf("%s\n",qname );
+        
         dnsANSection+=stop;
         DNSAddRecords[i].resource = (R_DATA*)(dnsANSection);
         // int prevStop = stop;
@@ -307,6 +308,9 @@ using std::endl;
             }
             
             printf("%d\t", ntohl(DNSAddRecords[i].resource->TTL));
+            
+            printf("Bytes that will be read are:");
+            for (int q = 0; q < 4;q++){printf("%02X\n");}
             
             
             
