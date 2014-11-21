@@ -286,10 +286,6 @@ using std::endl;
 	
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
 
-        DNSAddRecords[i].rdata = ReadName(dnsANSection,buffer,&stop);
-        dnsANSection+=stop;
-        printf("CNAME: %s\t", DNSAddRecords[i].name);
-
         if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x04) // ipaddress found
         {
 
@@ -309,14 +305,15 @@ using std::endl;
             
             printf("%d\t", ntohl(DNSAddRecords[i].resource->TTL));
             
-            dnsANSection-=2;
+           // dnsANSection-=2;
+            /*
             printf("Bytes that will be read are:");
             for (int q = 0; q < 4;q++){
             
               printf("%02X\n", *(dnsANSection));
               dnsANSection+=1;
             }
-            
+            */
             
             
             
