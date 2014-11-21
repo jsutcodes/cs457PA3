@@ -198,7 +198,7 @@ using std::endl;
                     printf("AAAA\t");
                 break;
                 case 0x0005:
-                    printf("CNAME\t%s",DNSAnswers[i].rdata);
+                    printf("CNAME\t%s\n",DNSAnswers[i].rdata);
                     URL = (char *)DNSAnswers[i].rdata;
                     sendPacket("192.58.128.30");
                 break;
@@ -231,7 +231,7 @@ using std::endl;
         }
             // printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
             // printf("ip-adress: %s\n", DNSAnswers[i].rdata);
-          printf("\n");  
+          //printf("\n");  
             
 
       }
