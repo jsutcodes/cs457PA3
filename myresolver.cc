@@ -330,6 +330,7 @@ using std::endl;
     temp.push_back(d);
     return temp;
   }
+  
 char* ReadIPv4Address(unsigned char* reader,unsigned char*buffer, int*count)
 {
     char *IP_addr;
@@ -343,7 +344,7 @@ char* ReadIPv4Address(unsigned char* reader,unsigned char*buffer, int*count)
     { 
         int num = (unsigned int)*reader;
         sprintf(str, "%d", num);
-        // printf("%s", str);
+        printf("%s", str);
         reader++;
 
 
