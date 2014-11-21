@@ -315,7 +315,7 @@ using std::endl;
             ReadIPv6Address(dnsANSection,buffer,&stop);
             dnsANSection+=16;
 	    
-            //printf("\n\nAddress: %s\n\n", DNSAddRecords[i].rdata);
+            printf("Address: %s\n", DNSAddRecords[i].rdata);
         
         }
         
