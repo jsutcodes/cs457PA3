@@ -284,13 +284,12 @@ using std::endl;
         
         printf("===========Additional %d: ===========\n",i);
         DNSAddRecords[i].name=ReadName(dnsANSection, buffer, &stop);
-        // printf("%s\n",qname );
-        
         dnsANSection+=stop;
         DNSAddRecords[i].resource = (R_DATA*)(dnsANSection);
         // int prevStop = stop;
         // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
         dnsANSection+=sizeof(R_DATA)-2;
+	
 	
 	
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
@@ -319,6 +318,8 @@ using std::endl;
             //printf("\n\nAddress: %s\n\n", DNSAddRecords[i].rdata);
         
         }
+        
+        printf("dnsAddRecords:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAddRecords[i].resource->TYPE),ntohs(DNSAddRecords[i].resource->CLASS),ntohl(DNSAddRecords[i].resource->TTL),ntohs(DNSAddRecords[i].resource->RDLENGTH));
         
         
         //sendPacket((const char *)DNSAddRecords[0].rdata);
