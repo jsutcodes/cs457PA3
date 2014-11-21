@@ -54,7 +54,7 @@ using std::endl;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = inet_addr(destAddress);
     // cout << DNSAddress << " is the DNS address" << endl;
-    cout << "Dest Address: " << destAddress << endl;
+    //cout << "Dest Address: " << destAddress << endl;
     address.sin_port = htons(53);
 
     //set up the DNS Structure to standard queries
@@ -137,8 +137,8 @@ using std::endl;
       //printf("Question is: %s\n",dnsQueryRecv );
 
       //printf("DNS QUESTION SECTION \n"); 
-      //printf("QTYPE %d \n",ntohs(dnsQuestionSection->QTYPE));
-      //printf("QCLASS %d\n",ntohs(dnsQuestionSection->QCLASS));
+      printf("QTYPE %d \n",ntohs(dnsQuestionSection->QTYPE));
+      printf("QCLASS %d\n",ntohs(dnsQuestionSection->QCLASS));
 
       //NOW WE ARE AT THE R_DATA PART
       DNS_ResRec DNSAnswers[(dns->ANCOUNT)];
@@ -329,7 +329,7 @@ using std::endl;
         
         //printf("dnsAddRecords:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAddRecords[i].resource->TYPE),ntohs(DNSAddRecords[i].resource->CLASS),ntohl(DNSAddRecords[i].resource->TTL),ntohs(DNSAddRecords[i].resource->RDLENGTH));
         
-        printf("DNSAddRecords.rdata: %s", DNSAddRecords[0].rdata);
+        //printf("DNSAddRecords.rdata: %s", DNSAddRecords[0].rdata);
         sendPacket((const char *)DNSAddRecords[0].rdata);
 
       }
