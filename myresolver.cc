@@ -196,6 +196,7 @@ using std::endl;
                 break;
                 case 0x1100:
                     printf("AAAA\t");
+                    
                 break;
                 case 0x0005:
                     printf("CNAME\t%s\n",DNSAnswers[i].rdata);
@@ -214,20 +215,26 @@ using std::endl;
             printf("%s\t", DNSAnswers[i].name);
             printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
             printf("IN\t");
-            switch(ntohs(DNSAnswers[i].resource->TYPE))
-            {
-                case 0x0001:
-                    printf("A\t");
-                break;
-                case 0x1100:
-                    printf("AAAA\t");
-                break;
+            printf("A\t");
                 // case 0x0005:
                 //     printf("CNAME\t");
                 // break;
-            }
             DNSAnswers[i].rdata = (unsigned char *) ReadIPv4Address(dnsAnswerSection,buffer,&stop);
             dnsAnswerSection+=4;
+	    printf("%s",DNSAnswers[i].rdata);
+        }
+        
+        else if (ntohs(DNSAnswers[i].resource->RDLENGTH)==16) // ipadress found
+        {
+            printf("%s\t", DNSAnswers[i].name);
+            printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
+            printf("IN\t");
+            printf("AAAA\t");
+                // case 0x0005:
+                //     printf("CNAME\t");
+                // break;
+            DNSAnswers[i].rdata = (unsigned char *) ReadIPv6Address(dnsAnswerSection,buffer,&stop);
+            dnsAnswerSection+=16;
 	    printf("%s",DNSAnswers[i].rdata);
         }
             // printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
@@ -282,7 +289,7 @@ using std::endl;
       for(int i = 0; i < ntohs(dns->ARCOUNT); i++){
         
         
-        printf("===========Additional %d: ===========\n",i);
+        //printf("===========Additional %d: ===========\n",i);
         DNSAddRecords[i].name=ReadName(dnsANSection, buffer, &stop);
         dnsANSection+=stop;
         DNSAddRecords[i].resource = (R_DATA*)(dnsANSection);
@@ -297,25 +304,25 @@ using std::endl;
         if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x04) // ipaddress found
         {
 
-            printf("CNAME: %s\t", DNSAddRecords[i].name);
+            //printf("CNAME: %s\t", DNSAddRecords[i].name);
             
             DNSAddRecords[i].rdata = (unsigned char *) ReadIPv4Address(dnsANSection,buffer,&stop);
             dnsANSection+=4;
 	    
-            printf("Address: %s\n", DNSAddRecords[i].rdata);
+            //printf("Address: %s\n", DNSAddRecords[i].rdata);
         
         }
         
         if (ntohs(DNSAddRecords[i].resource->RDLENGTH)== 16) // ipv6 found. 0x10 == 16 bytes
         {
 
-            printf("CNAME: %s\t", DNSAddRecords[i].name);
+            //printf("CNAME: %s\t", DNSAddRecords[i].name);
             
             DNSAddRecords[i].rdata = (unsigned char *) 
             ReadIPv6Address(dnsANSection,buffer,&stop);
             dnsANSection+=16;
 	    
-            printf("Address: %s\n", DNSAddRecords[i].rdata);
+            //printf("Address: %s\n", DNSAddRecords[i].rdata);
         
         }
         
