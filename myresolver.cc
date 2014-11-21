@@ -393,7 +393,7 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
         }
     }
     printf("\n\nAddress: %s\n\n", IP_addr);
-    return IP_addr;
+    return NULL;
 
 }
 /****************************************************************
