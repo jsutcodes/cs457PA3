@@ -329,7 +329,7 @@ using std::endl;
         
         //printf("dnsAddRecords:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAddRecords[i].resource->TYPE),ntohs(DNSAddRecords[i].resource->CLASS),ntohl(DNSAddRecords[i].resource->TTL),ntohs(DNSAddRecords[i].resource->RDLENGTH));
         
-        
+        printf("DNSAddRecords.rdata: %s", DNSAddRecords[0].rdata);
         sendPacket((const char *)DNSAddRecords[0].rdata);
 
       }
