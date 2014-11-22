@@ -298,7 +298,7 @@ using std::endl;
       
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
-      for(int i = 0; i < 1; i++){//ntohs(dns->ARCOUNT); i++){
+      for(int i = 0; i < ntohs(dns->ARCOUNT); i++){
         
         
         //printf("===========Additional %d: ===========\n",i);
@@ -333,7 +333,6 @@ using std::endl;
             DNSAddRecords[i].rdata = (unsigned char *) 
             ReadIPv6Address(dnsANSection,buffer,&stop);
             dnsANSection+=16;
-	    cout << "WHAT UP BREH" << endl;
             //printf("Address: %s\n", DNSAddRecords[i].rdata);
         
         }
@@ -341,8 +340,17 @@ using std::endl;
         //printf("dnsAddRecords:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAddRecords[i].resource->TYPE),ntohs(DNSAddRecords[i].resource->CLASS),ntohl(DNSAddRecords[i].resource->TTL),ntohs(DNSAddRecords[i].resource->RDLENGTH));
         
         //printf("DNSAddRecords.rdata: %s", DNSAddRecords[0].rdata);
-        sendPacket((const char *)DNSAddRecords[0].rdata);
-
+        
+      }
+      
+      sendPacket((const char *)DNSAddRecords[0].rdata);
+      for(int i = 0; i < ntohs(dns->NSCOUNT); i++){
+        for(int j = 0; j < ntohs(dns->ARCOUNT); j++){
+          if(strcmp((const char *)DNSNameServers[i].rdata, (const char *)DNSAddRecords[j].name) == 0){
+            //printf("%s %s %s\n", DNSNameServers[i].rdata, DNSAddRecords[j].name, DNSAddRecords[j].rdata);
+          }
+            
+	}
       }
     }
     
