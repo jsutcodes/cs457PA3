@@ -104,7 +104,7 @@ using std::endl;
 
 
 
-    if (sendto(handle,(char*)buffer,sizeof(DNSHeader)+ (strlen((const char*)qname)+1) + sizeof(DNSQuestion),0,(struct sockaddr*)&address,sizeof(address))==-1)
+    if (sendto(handle,(char*)buffer,sizeof(DNSHeader)+ (strlen((const char*)qname)+1) + sizeof(DNSQuestion)+sizeof(DNS_RRSIG_Request),0,(struct sockaddr*)&address,sizeof(address))==-1)
     {
       printf("%d ERROR\n",handle);
     }
