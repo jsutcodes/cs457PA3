@@ -112,6 +112,19 @@ typedef struct resRec
 
 }DNS_ResRec;
 
+typedef struct addSection
+{
+  unsigned char Name; // 1 byte
+  unsigned short Type; //2 bytes
+  unsigned short payloadSize; //2 bytes
+  unsigned char higher_bits; // 1 byte
+  unsigned char EDNS0_v; // 1 byte
+  unsigned short z; // 2 bytes
+  unsigned short length; //2 bytes 
+
+
+}DNS_RRSIG_Request;
+
 /****************************************************
 * DNS QUERY PACKET
 *****************************************************/

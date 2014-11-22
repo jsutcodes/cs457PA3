@@ -92,6 +92,18 @@ using std::endl;
 
     //cout << "\nSending Packet..." << endl;
 
+    //DNS add section(requesting the RRSIG)
+    DNS_RRSIG_Request *AddRecordsReq = (DNS_RRSIG_Request*)&buffer[sizeof(DNSHeader)+(strlen((const char*)qname)+1)+sizeof(DNSQuestion)]; 
+    AddRecordsReq->Name = 0;
+    AddRecordsReq->Type = htons(41);
+    AddRecordsReq->payloadSize=htons(4096);
+    AddRecordsReq->higher_bits=0;
+    AddRecordsReq->EDNS0_v=0;
+    AddRecordsReq->z=htons(32768); // 0x8000 request rrsig records
+    AddRecordsReq->length=0;
+
+
+
     if (sendto(handle,(char*)buffer,sizeof(DNSHeader)+ (strlen((const char*)qname)+1) + sizeof(DNSQuestion),0,(struct sockaddr*)&address,sizeof(address))==-1)
     {
       printf("%d ERROR\n",handle);
@@ -438,7 +450,7 @@ unsigned char* ReadName(unsigned char* reader,unsigned char* buffer,int* count)
         {
             offset = *(reader+1);
             reader = buffer + offset - 1;
-             flag = 1;
+            flag = 1;
         }
         else // read the string like normal
         {
