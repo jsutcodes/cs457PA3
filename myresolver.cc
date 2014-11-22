@@ -276,8 +276,8 @@ using std::endl;
       
       for (int i = 0; i < ntohs(dns->NSCOUNT); ++i)
       {
-
-        // printf("===========ANSWER %d: ===========\n",i);
+	
+        printf("===========ANSWER %d: ===========\n",i);
         DNSNameServers[i].name=ReadName(dnsANSection, buffer, &stop);
         // printf("%s\n",qname );
         dnsANSection+=stop;
@@ -286,11 +286,16 @@ using std::endl;
         // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
         dnsANSection+=sizeof(R_DATA)-2;
 	
-	
+	if(ntohs(DNSNameServers[i].resource->CLASS) ==  2){
+	  DNSNameServers[i].rdata = ReadName(dnsANSection,buffer,&stop);
+          dnsANSection+=stop;
+	}
+	else{
+	  dnsANSection+=ntohs(DNSNameServers[i].resource->RDLENGTH);
+	}
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
 
-        DNSNameServers[i].rdata = ReadName(dnsANSection,buffer,&stop);
-        dnsANSection+=stop;
+        
         //printf("NAME: %s\t", DNSNameServers[i].name);
 
         // printf("name is %s\n", DNSAnswers[i].name);
