@@ -93,7 +93,7 @@ using std::endl;
     //cout << "\nSending Packet..." << endl;
 
     //DNS add section(requesting the RRSIG)
-    DNS_RRSIG_Request *AddRecordsReq = (DNS_RRSIG_Request*)&buffer[sizeof(DNSHeader)+(strlen((const char*)qname)+1)+sizeof(DNSQuestion)-1]; 
+    DNS_RRSIG_Request *AddRecordsReq = (DNS_RRSIG_Request*)&buffer[sizeof(DNSHeader)+(strlen((const char*)qname)+1)+sizeof(DNSQuestion)]; 
     AddRecordsReq->Name = 0;
     AddRecordsReq->Type = htons(41);
     AddRecordsReq->payloadSize=htons(4096);
