@@ -331,7 +331,7 @@ using std::endl;
         
       }
       
-      printf("HERE I AM!\n");
+      printf("%d %d\n", ntohs(dns->NSCOUNT),ntohs(dns->ANCOUNT) );
       
       for(int i = 0; i < ntohs(dns->NSCOUNT); i++){
         for(int j = 0; j < ntohs(dns->ANCOUNT); j++){
