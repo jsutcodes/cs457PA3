@@ -88,7 +88,7 @@ using std::endl;
     else if(strcmp(ipType.c_str(),"A") == 0)
       qinfo->QTYPE = htons(1); // ipv6 address request
 
-    qinfo->QCLASS = htons(1); //internet
+    
 
     //cout << "\nSending Packet..." << endl;
 
@@ -99,7 +99,7 @@ using std::endl;
     
     // printf("The pointer is cuurently at %02X %02X %02X\n",*(here-1),*here,*(here+1) );
 
-    AddRecordsReq->Name = htons(0xF);
+    AddRecordsReq->Name = 0;
     AddRecordsReq->Type = htons(41);
     AddRecordsReq->payloadSize=htons(4096);
     AddRecordsReq->higher_bits=0;
@@ -107,7 +107,7 @@ using std::endl;
     AddRecordsReq->z=htons(32768); // 0x8000 request rrsig records
     AddRecordsReq->length=0;
 
-
+    qinfo->QCLASS = htons(1); //internet
 
 
 
