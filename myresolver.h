@@ -114,13 +114,13 @@ typedef struct resRec
 
 typedef struct addSection
 {
-  unsigned char Name:1; // 1 byte
-  unsigned short Type; //2 bytes
-  unsigned short payloadSize; //2 bytes
-  unsigned char higher_bits; // 1 byte
-  unsigned char EDNS0_v; // 1 byte
-  unsigned short z; // 2 bytes
-  unsigned short length; //2 bytes 
+  unsigned char Name:8; // 1 byte
+  unsigned short Type:16; //2 bytes
+  unsigned short payloadSize:16; //2 bytes
+  unsigned char higher_bits:8; // 1 byte
+  unsigned char EDNS0_v:8; // 1 byte
+  unsigned short z:8; // 2 bytes
+  unsigned short length:16; //2 bytes 
 
 
 }DNS_RRSIG_Request;
