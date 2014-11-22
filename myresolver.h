@@ -114,7 +114,7 @@ typedef struct resRec
 
 typedef struct addSection
 {
-  unsigned char Name; // 1 byte
+  unsigned char Name:1; // 1 byte
   unsigned short Type; //2 bytes
   unsigned short payloadSize; //2 bytes
   unsigned char higher_bits; // 1 byte
