@@ -94,7 +94,7 @@ using std::endl;
 
     //DNS add section(requesting the RRSIG)
 
-    DNS_RRSIG_Request *AddRecordsReq = (DNS_RRSIG_Request*)&buffer[sizeof(DNSHeader)+(strlen((const char*)qname)+1)+sizeof(DNSQuestion)+1]; 
+    DNS_RRSIG_Request *AddRecordsReq = (DNS_RRSIG_Request*)&buffer[sizeof(DNSHeader)+(strlen((const char*)qname)+1)+sizeof(DNSQuestion)-1]; 
     // unsigned char *here = (unsigned char *) (&AddRecordsReq);
     
     // printf("The pointer is cuurently at %02X %02X %02X\n",*(here-1),*here,*(here+1) );
