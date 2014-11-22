@@ -99,7 +99,7 @@ using std::endl;
     
     // printf("The pointer is cuurently at %02X %02X %02X\n",*(here-1),*here,*(here+1) );
 
-    AddRecordsReq->Name = 0;
+    AddRecordsReq->Name = htons(0xF);
     AddRecordsReq->Type = htons(41);
     AddRecordsReq->payloadSize=htons(4096);
     AddRecordsReq->higher_bits=0;
