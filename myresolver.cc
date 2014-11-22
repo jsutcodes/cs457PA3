@@ -286,7 +286,7 @@ using std::endl;
       
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
-      for(int i = 0; i < 1; i++){//ntohs(dns->ARCOUNT); i++){
+      for(int i = 0; i < ntohs(dns->ARCOUNT); i++){
         
         
         //printf("===========Additional %d: ===========\n",i);
@@ -321,7 +321,6 @@ using std::endl;
             DNSAddRecords[i].rdata = (unsigned char *) 
             ReadIPv6Address(dnsANSection,buffer,&stop);
             dnsANSection+=16;
-	    cout << "WHAT UP BREH" << endl;
             //printf("Address: %s\n", DNSAddRecords[i].rdata);
         
         }
