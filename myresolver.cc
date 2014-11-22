@@ -333,6 +333,7 @@ using std::endl;
       
       for(int i = 0; i < ntohs(dns->NSCOUNT); i++){
         for(int j = 0; j < ntohs(dns->ANCOUNT); j++){
+          printf("%d %d\n", i, j);
           if(strcmp((const char *)DNSNameServers[i].rdata, (const char *)DNSAddRecords[j].name) == 0){
             printf("%s %s %s\n", DNSNameServers[i].rdata, DNSAddRecords[j].name, DNSAddRecords[j].rdata);
           }
