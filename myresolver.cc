@@ -75,7 +75,7 @@ using std::endl;
     dns->QDCOUNT = htons(1);
     dns->ANCOUNT = 0;
     dns->NSCOUNT = 0;
-    dns->ARCOUNT = 0;
+    dns->ARCOUNT = htons(1);
 
     //The question section 
     qname = (unsigned char*)&buffer[sizeof(DNSHeader)];
