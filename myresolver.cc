@@ -309,7 +309,7 @@ using std::endl;
       
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
-      for(int i = 0; i < ntohs(dns->ARCOUNT); i++){
+      for(int i = 0; i < ntohs(dns->ARCOUNT)-1; i++){
         
         
         //printf("===========Additional %d: ===========\n",i);
