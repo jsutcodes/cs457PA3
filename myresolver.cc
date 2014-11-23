@@ -242,6 +242,7 @@ using std::endl;
             dnsAnswerSection+=4;
 	    printf("%s",DNSAnswers[i].rdata);
 	    if(i == ntohs(dns->ANCOUNT)-1){
+	      printf("\n");
 	      exit(0);
 	    }
         }
@@ -259,6 +260,7 @@ using std::endl;
             dnsAnswerSection+=16;
 	    printf("%s",DNSAnswers[i].rdata);
 	    if(i == ntohs(dns->ANCOUNT)-1){
+	      printf("\n");
 	      exit(0);
 	    }
         }
