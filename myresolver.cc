@@ -286,11 +286,14 @@ using std::endl;
             printf("%01x\t",*dnsAnswerSection);
             dnsAnswerSection++;
 
-            printf("%d\t",ntohl(rrsigRec->OriginTTL));
-            //dnsAnswerSection+=;
-            printf("%d\t",ntohl(rrsigRec->sigExp) );
-            printf("%d\t",ntohl(rrsigRec->SigInc) );
-            printf("%s\t", ntohs(rrsigRec->keyTag));
+            printf("%d\t",ntohl(*dnsAnswerSection));
+            dnsAnswerSection+=4;
+            printf("%d\t",ntohl(*dnsAnswerSection) );
+            dnsAnswerSection+=4;
+            printf("%d\t",ntohl(*dnsAnswerSection) );
+            dnsAnswerSection+=4;
+            printf("%s\t", ntohs(*dnsAnswerSection));
+            dnsAnswerSection+=2;
 
             exit(0);
             // printf("NEXT BYTES \n");
