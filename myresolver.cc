@@ -226,7 +226,7 @@ using std::endl;
                 case 5:
                     printf("CNAME\t%s\n",DNSAnswers[i].rdata);
                     URL = (char *)DNSAnswers[i].rdata;
-                    sendPacket("192.58.128.30");
+                    sendPacket(DNSRootAddr[0].c_str());
                     case 46:
                     printf("RRSIG\t");
                 break;
@@ -679,7 +679,7 @@ int main(int argc, char* argv[]){
   
   //208.67.222.222
   //192.58.128.30
-  mR.sendPacket("192.58.128.30");
+  mR.sendPacket(mR.DNSRootAddr[0].c_str());
   
   
   

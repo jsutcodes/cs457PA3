@@ -4,7 +4,7 @@
 
 #define DNS_PORT        53
 
-#define ROOT_SERVER_0   "198.41.0.4"
+#define ROOT_SERVER_0   "192.58.128.30"
 #define ROOT_SERVER_1   "192.228.79.201"
 #define ROOT_SERVER_2   "192.33.4.12"
 #define ROOT_SERVER_3   "199,7,91,13"
@@ -15,6 +15,8 @@
 #include <string.h>
 #include <sys/types.h>
 #include <cstring> // memcopy
+
+#include "base64.h"
 
 using std::string;
 using std::vector;
@@ -182,11 +184,11 @@ public:
   vector<unsigned int> createIPVector(unsigned int a, unsigned int b, unsigned int c, unsigned int d);
   void readPacket(unsigned char* buffer, DNSHeader *dns, unsigned char* qname);
   void sendPacket(const char * destAddress);
-
+  std::vector<string> DNSRootAddr;
 
 private:
   vector<std::vector<unsigned int> > DNSAddresses;
-  std::vector<string> DNSRootAddr; // contains string format of the root servers 
+   // contains string format of the root servers 
 };
 
 #endif //MYRESOLVER_H_INCLUDE
