@@ -362,9 +362,9 @@ using std::endl;
         printf("%d\n", i);
         for(int j = 0; j < ntohs(dns->ARCOUNT)-1; j++){
           printf("%d %d\n", i, j);
-          //if(strcmp((const char *)DNSNameServers[i].rdata, (const char *)DNSAddRecords[j].name) == 0){
-          printf("%s %s %s\n", DNSNameServers[i].rdata, DNSAddRecords[j].name, DNSAddRecords[j].rdata);
-          //}
+          if(strcmp((const char *)DNSNameServers[i].rdata, (const char *)DNSAddRecords[j].name) == 0){
+            printf("%s %s %s\n", DNSNameServers[i].rdata, DNSAddRecords[j].name, DNSAddRecords[j].rdata);
+          }
             
 	}
       }
