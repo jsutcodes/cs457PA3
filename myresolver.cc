@@ -304,21 +304,21 @@ using std::endl;
             printf("%s\n", ReadName(dnsAnswerSection,buffer,&nameSize));
             dnsAnswerSection+=nameSize;
 
-            printf("%s\n", ReadName(dnsAnswerSection,buffer,&nameSize));
+            short dl = ntohs(DNSAnswers[i].resource->RDLENGTH) - nameSize -18;
+            printf("THE NUMBER WE HAVE LEFT IS: %d\n", dl);
+
+            for (short i = 0; i < dl; i++,dnsAnswerSection++)
+            {
+              printf("%02X ", *dnsAnswerSection);
+            }
+
+            exit(0);
+            rrsigRec->Signiture = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
             dnsAnswerSection+=nameSize;
 
             exit(-1);
 
-            // short dl = ntohs(DNSAnswers[i].resource->RDLENGTH) - nameSize -18;
 
-            // for (short i = 0; i < dl; i++,dnsAnswerSection++)
-            // {
-            //   printf("%02X ", *dnsAnswerSection);
-            // }
-
-            // exit(0);
-            // rrsigRec->Signiture = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
-            // dnsAnswerSection+=nameSize;
 
 
         }
