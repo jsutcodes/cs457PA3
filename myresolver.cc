@@ -304,9 +304,9 @@ using std::endl;
             printf("%s\n", ReadName(dnsAnswerSection,buffer,&nameSize));
             dnsAnswerSection+=nameSize;
 
-            int dl = ntohl(DNSAnswers[i].resource->RDLENGTH) - nameSize -18;
+            short dl = ntohs(DNSAnswers[i].resource->RDLENGTH) - nameSize -18;
 
-            for (int i = 0; i < dl; i++,dnsAnswerSection++)
+            for (short i = 0; i < dl; i++,dnsAnswerSection++)
             {
               printf("%02X ", *dnsAnswerSection);
             }
