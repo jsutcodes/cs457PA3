@@ -54,15 +54,13 @@ using std::endl;
     sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = inet_addr(destAddress);
-    // cout << DNSAddress << " is the DNS address" << endl;
-    //cout << "Dest Address: " << destAddress << endl;
     address.sin_port = htons(53);
 
     //set up the DNS Structure to standard queries
     DNSHeader *dns = (DNSHeader *)&buffer;
 
     //set up header packet 
-    dns->ID = (unsigned short)htons(getpid()); // THIS NEEDS TO BE CHANGED
+    dns->ID = (unsigned short)htons(getpid()); 
     dns->QR = 0; // This is a query
     dns->Opcode = 0; //standard query
     dns->AA = 0; //not athoritative
@@ -81,7 +79,6 @@ using std::endl;
     //The question section 
     qname = (unsigned char*)&buffer[sizeof(DNSHeader)];
     ChangetoDnsNameFormat(qname,(unsigned char*)URL.c_str()); //make sure this is working
-    //cout << "URL is " << qname << endl;
     DNSQuestion* qinfo = (DNSQuestion*)&buffer[sizeof(DNSHeader)+(strlen((const char*)qname)+1)];
     
     if(strcmp(ipType.c_str(),"AAAA") == 0)
@@ -89,17 +86,8 @@ using std::endl;
     else if(strcmp(ipType.c_str(),"A") == 0)
       qinfo->QTYPE = htons(1); // ipv6 address request
 
-    
-
-    //cout << "\nSending Packet..." << endl;
-
-    //DNS add section(requesting the RRSIG)
 
     DNS_RRSIG_Request *AddRecordsReq = (DNS_RRSIG_Request*)&buffer[sizeof(DNSHeader)+(strlen((const char*)qname)+1)+sizeof(DNSQuestion)-1]; 
-    // unsigned char *here = (unsigned char *) (&AddRecordsReq);
-    
-    // printf("The pointer is cuurently at %02X %02X %02X\n",*(here-1),*here,*(here+1) );
-
     AddRecordsReq->Name = 0;
     AddRecordsReq->Type = htons(41);
     AddRecordsReq->payloadSize=htons(4096);
@@ -108,21 +96,17 @@ using std::endl;
     AddRecordsReq->z=htons(32768); // 0x8000 request rrsig records
     AddRecordsReq->length=0;
 
+
     qinfo->QCLASS = htons(1); //internet
-
-
 
     if (sendto(handle,(char*)buffer,sizeof(DNSHeader)+ (strlen((const char*)qname)+1) + sizeof(DNSQuestion)+sizeof(DNS_RRSIG_Request)-1,0,(struct sockaddr*)&address,sizeof(address))==-1)
     {
-      printf("%d ERROR\n",handle);
+      printf("%d Bytes failed to send. \n",handle);
+      exit(0);
     }
-
-    //cout << "Sent "<< strlen((const char*)buffer)<<" bytes" << endl;
     
-    int i = sizeof(address);
-
-    //cout <<"Recieving Packet..."<< endl;
-    
+    //recieving -----------
+    int i = sizeof(address);    
     if (recvfrom(handle, (char*)buffer, 65536, 0, (sockaddr *)&address, (socklen_t *)&i) < 0)
     {
       cout << "Recv Failure" << endl;
@@ -133,67 +117,33 @@ using std::endl;
 
   }
   
+  //Read Packet is used to read the incoming pacekt from the DNS server
   void MyResolver::readPacket(unsigned char * buffer, DNSHeader *dns, unsigned char* qname){
     
     
     DNSHeader *dnsHeadRecv = (DNSHeader*)&buffer;
     unsigned char *dnsQueryRecv = (unsigned char*)&buffer[sizeof(DNSHeader)];
     
-    int Nxflag = *(buffer+3)&0xF;
 
+    //check for NXDOMAIN error ----
+    int Nxflag = *(buffer+3)&0xF;
     if(Nxflag == 3)
     {
         printf("%s IS A NXDOMAIN\n", URL.c_str());
         exit(-1);
     }
-    /*
-    printf("\nThe response contains : ");
-    printf("\n %d Questions.",ntohs(dns->QDCOUNT));
-    printf("\n %d Answers.\n",ntohs(dns->ANCOUNT));
-    printf("\n %d Name Servers.\n",ntohs(dns->NSCOUNT));
-    printf("\n %d Additional.\n",ntohs(dns->ARCOUNT));
-    */
+
+    // make sure we recieved answers 
     if(ntohs(dns->ANCOUNT) > 0 ){
     
       unsigned char *dnsAnswerSection;
       dnsAnswerSection = &buffer[sizeof(DNSHeader) + (strlen((const char *)qname) +1) + sizeof(DNSQuestion)];
       DNSQuestion *dnsQuestionSection = (DNSQuestion*)&buffer[sizeof(DNSHeader)+(strlen((const char *)qname)+1)];
       
-      //printDNSHeader(dnsHeadRecv); 
-      //printf("Question is: %s\n",dnsQueryRecv );
-
-      //printf("DNS QUESTION SECTION \n"); 
-      //printf("QTYPE %d \n",ntohs(dnsQuestionSection->QTYPE));
-      //printf("QCLASS %d\n",ntohs(dnsQuestionSection->QCLASS));
 
       //NOW WE ARE AT THE R_DATA PART
       DNS_ResRec DNSAnswers[(dns->ANCOUNT)];
-
-      //printf("ANSWER SECTION (RDATA)\n");
       int stop = 0;
-
-      //unsigned char *answerName = (unsigned char *) &buffer[sizeof(DNSHeader) + (strlen((const char *)qname) +1) + sizeof(DNSQuestion)];
-      //unsigned char *packet = (unsigned char *) &buffer[sizeof(DNSHeader) + (strlen((const char *)qname) +1) + sizeof(DNSQuestion)];
-    // printf("name is %s\n", DNSAnswers[0].name);
-
-    // printf("PRINT 80 memory locations and bit values\n");
-    /*
-     for (int i = 0; i < 36; i++)
-     {
-       printf("answer packet_data: %02X \n",(*packet),(packet),(packet) );
-       packet += 1;
-     }
-    */
-    //print out the whole buffer 
-    // for (int i = 0; i < sizeof(buffer); ++i)
-    // {
-    //   printf("memory adress: %p = %hd \tAs char: %02X\n",(buffer+i),(buffer+i), (buffer+i));
-    // }
-
-    //http://www.ccs.neu.edu/home/amislove/teaching/cs4700/fall09/handouts/project1-primer.pdf
-    // look at the website above to try and figure out how to get the packet. where is this pointer at?
-
-
     
       for (int i = 0; i < ntohs(dns->ANCOUNT); ++i)
       {
@@ -203,10 +153,9 @@ using std::endl;
         DNSAnswers[i].name=ReadName(dnsAnswerSection, buffer, &stop);
         dnsAnswerSection+=stop;
         DNSAnswers[i].resource = (R_DATA*)(dnsAnswerSection);
-        // int prevStop = stop;
-        // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
         dnsAnswerSection+=sizeof(R_DATA)-2;
-        // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
+
+       
         if(ntohs(DNSAnswers[i].resource->RDLENGTH)!=4 && ntohs(DNSAnswers[i].resource->RDLENGTH)!=16 && ntohs(DNSAnswers[i].resource->TYPE)!=46) // not an ipadress its a cname????
         {
             DNSAnswers[i].rdata = ReadName(dnsAnswerSection,buffer,&stop);
@@ -216,61 +165,55 @@ using std::endl;
             printf("IN\t");
             switch(ntohs(DNSAnswers[i].resource->TYPE))
             {
-                case 1:
-                    printf("A\t");
-                break;
-                case 28:
-                    printf("AAAA\t");
-                    
-                break;
-                case 5:
-                    printf("CNAME\t%s\n",DNSAnswers[i].rdata);
-                    URL = (char *)DNSAnswers[i].rdata;
-                    sendPacket(DNSRootAddr[0].c_str());
-                    case 46:
-                    printf("RRSIG\t");
-                break;
+              case 1:
+                  printf("A\t");
+              break;
+              case 28:
+                  printf("AAAA\t");
+                  
+              break;
+              case 5:
+                  printf("CNAME\t%s\n",DNSAnswers[i].rdata);
+                  URL = (char *)DNSAnswers[i].rdata;
+                  sendPacket(DNSRootAddr[0].c_str());
+                  case 46:
+                  printf("RRSIG\t");
+              break;
             }
-
-            // printf("name is %s\n", DNSAnswers[i].name);
-            //printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
-            // printf("CNAME: %s\n", DNSAnswers[i].rdata);
         }
-        
         else if (ntohs(DNSAnswers[i].resource->RDLENGTH)==4) // ipadress found
         {
-            printf("%s\t", DNSAnswers[i].name);
-            printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
-            printf("IN\t");
-            printf("A\t");
-                // case 0x0005:
-                //     printf("CNAME\t");
-                // break;
-            DNSAnswers[i].rdata = (unsigned char *) ReadIPv4Address(dnsAnswerSection,buffer,&stop);
-            dnsAnswerSection+=4;
-	    printf("%s",DNSAnswers[i].rdata);
-	    if(i == ntohs(dns->ANCOUNT)-1){
-	      printf("\n");
-	      exit(0);
-	    }
+          printf("%s\t", DNSAnswers[i].name);
+          printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
+          printf("IN\t");
+          printf("A\t");
+
+          DNSAnswers[i].rdata = (unsigned char *) ReadIPv4Address(dnsAnswerSection,buffer,&stop);
+          dnsAnswerSection+=4;
+          printf("%s",DNSAnswers[i].rdata);
+
+    	    if(i == ntohs(dns->ANCOUNT)-1)
+          {
+    	      printf("\n");
+    	      exit(0);
+    	    }
         }
-        
         else if (ntohs(DNSAnswers[i].resource->RDLENGTH)==16) // ipadress found
         {
-            printf("%s\t", DNSAnswers[i].name);
-            printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
-            printf("IN\t");
-            printf("AAAA\t");
-                // case 0x0005:
-                //     printf("CNAME\t");
-                // break;
-            DNSAnswers[i].rdata = (unsigned char *) ReadIPv6Address(dnsAnswerSection,buffer,&stop);
-            dnsAnswerSection+=16;
-	          printf("%s",DNSAnswers[i].rdata);
-      	    if(i == ntohs(dns->ANCOUNT)-1){
-      	      printf("\n");
-      	      exit(0);
-      	    }
+          printf("%s\t", DNSAnswers[i].name);
+          printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
+          printf("IN\t");
+          printf("AAAA\t");
+
+          DNSAnswers[i].rdata = (unsigned char *) ReadIPv6Address(dnsAnswerSection,buffer,&stop);
+          dnsAnswerSection+=16;
+          printf("%s",DNSAnswers[i].rdata);
+
+    	    if(i == ntohs(dns->ANCOUNT)-1)
+          {
+    	      printf("\n");
+    	      exit(0);
+    	    }
         }
         else if(ntohs(DNSAnswers[i].resource->TYPE)==46) // this bracket is for RRSIG
         {
@@ -281,9 +224,6 @@ using std::endl;
             printf("IN\t");
             printf("RRSIG\t");
             printf("%s\t",ARecType.c_str());
-
-            //pointer is currently at start of RRSIG package
-            // DnsAnser[i].rdata = start of DNS_RRSIG (it will be null)
             dnsAnswerSection+=2;// add two bytes to skip the type covered
 
             DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
@@ -291,9 +231,6 @@ using std::endl;
             dnsAnswerSection++;        
             printf("%01x\t",*dnsAnswerSection); //label 
             dnsAnswerSection++;
-
-
-
             printf("%d\t",ntohl(*((unsigned int*)dnsAnswerSection))); // original TTL
             dnsAnswerSection+=4;
             printf("%d\t",ntohl(*((unsigned int *)dnsAnswerSection)) ); //sigExp
@@ -305,9 +242,7 @@ using std::endl;
 
         
 
-            // // now read the names 
-           // rrsigRec->SignerName = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
-            printf("%s\n", ReadName(dnsAnswerSection,buffer,&nameSize));
+            // now read the names 
             dnsAnswerSection+=nameSize;
 
             unsigned int dl = ntohs(DNSAnswers[i].resource->RDLENGTH) - nameSize -18;
@@ -316,38 +251,16 @@ using std::endl;
             printf("%s\n",signature.c_str());
             dnsAnswerSection+=dl;
 
-            // printf("THE NUMBER WE HAVE LEFT IS: %d\n", dl);
-            // int counter = 0;
-            // while(counter <= dl)
-            // {
-            //   char field[3];
-            //   for (int i = 0; i < 3; ++i)
-            //   {
-            //     printf("%02X ", *dnsAnswerSection);
-            //     counter++;
-            //   }
-              
-            // }
-
             if(i == ntohs(dns->ANCOUNT)-1){
               exit(0);
             }
-
-
-
-
         }
-            // printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
-            // printf("ip-adress: %s\n", DNSAnswers[i].rdata);
-          printf("\n");  
-
-            
-
-      }
+        
+        printf("\n");  
+      } //end of for loop
     }
-    
-
-    else if(ntohs(dns->NSCOUNT) > 0 ){
+    else if(ntohs(dns->NSCOUNT) > 0 )
+    {
       packetCount += 1;
       unsigned char *dnsANSection;
       dnsANSection = &buffer[sizeof(DNSHeader) + (strlen((const char *)qname) +1) + sizeof(DNSQuestion)];
@@ -367,85 +280,51 @@ using std::endl;
         // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
         dnsANSection+=sizeof(R_DATA)-2;
 	
-	if(ntohs(DNSNameServers[i].resource->TYPE) ==  2){
-	  DNSNameServers[i].rdata = ReadName(dnsANSection,buffer,&stop);
+      	if(ntohs(DNSNameServers[i].resource->TYPE) ==  2)
+        {
+      	  DNSNameServers[i].rdata = ReadName(dnsANSection,buffer,&stop);
           dnsANSection+=stop;
-	}
-	else{
-	  dnsANSection+=ntohs(DNSNameServers[i].resource->RDLENGTH);
-	}
-        // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
-
-        
-        //printf("NAME: %s\t", DNSNameServers[i].name);
-
-        // printf("name is %s\n", DNSAnswers[i].name);
-            // printf("dnsANSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
-            
-            //This is looking at a pointer in the middle of our Name Server
-        //printf("CNAME: %s\n", DNSNameServers[i].rdata);
-            //sendPacket((const char *)DNSNameServers[i].rdata);
-            
+      	}
+      	else
+        {
+      	  dnsANSection+=ntohs(DNSNameServers[i].resource->RDLENGTH);
+      	}
       }
-      
       
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
-      for(int i = 0; i < ntohs(dns->ARCOUNT)-1; i++){
-        
-        
+      for(int i = 0; i < ntohs(dns->ARCOUNT)-1; i++)
+      {
         //printf("===========Additional %d: ===========\n",i);
+
         DNSAddRecords[i].name=ReadName(dnsANSection, buffer, &stop);
         dnsANSection+=stop;
         DNSAddRecords[i].resource = (R_DATA*)(dnsANSection);
-        // int prevStop = stop;
-        // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
         dnsANSection+=sizeof(R_DATA)-2;
-	
-	
-	
-        // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
 
         if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==4) // ipaddress found
-        {
+        {           
+          DNSAddRecords[i].rdata = (unsigned char *) ReadIPv4Address(dnsANSection,buffer,&stop);
+          dnsANSection+=4;
 
-            //printf("CNAME: %s\t", DNSAddRecords[i].name);
-            
-            DNSAddRecords[i].rdata = (unsigned char *) ReadIPv4Address(dnsANSection,buffer,&stop);
-            dnsANSection+=4;
-	    
-            //printf("Address: %s\n", DNSAddRecords[i].rdata);
-        
         }
-        
         if (ntohs(DNSAddRecords[i].resource->RDLENGTH)== 16) // ipv6 found. 0x10 == 16 bytes
         {
-
-            //printf("CNAME: %s\t", DNSAddRecords[i].name);
-            
             DNSAddRecords[i].rdata = (unsigned char *) 
             ReadIPv6Address(dnsANSection,buffer,&stop);
             dnsANSection+=16;
-            //printf("Address: %s\n", DNSAddRecords[i].rdata);
-        
         }
-        
-        //printf("dnsAddRecords:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAddRecords[i].resource->TYPE),ntohs(DNSAddRecords[i].resource->CLASS),ntohl(DNSAddRecords[i].resource->TTL),ntohs(DNSAddRecords[i].resource->RDLENGTH));
-        
-        //printf("DNSAddRecords.rdata: %s", DNSAddRecords[0].rdata);
-        
       }
       
       
       for(int i = 0; i < ntohs(dns->NSCOUNT)-2; i++){
         for(int j = 0; j < ntohs(dns->ARCOUNT)-1; j++){
           if(strcmp((const char *)DNSNameServers[i].rdata, (const char *)DNSAddRecords[j].name) == 0){
-            //printf("%s %s %s\n", DNSNameServers[i].rdata, DNSAddRecords[j].name, DNSAddRecords[j].rdata);
             sendPacket((const char *)DNSAddRecords[j].rdata);
             break;
           }
             
-	}
+	      }
       }
     }
     
@@ -463,7 +342,6 @@ using std::endl;
 char* ReadIPv4Address(unsigned char* reader,unsigned char*buffer, int*count)
 {
     char *IP_addr;
-
     IP_addr = (char *)malloc(16);
     char str[5];
     int counter = 0;
@@ -473,9 +351,7 @@ char* ReadIPv4Address(unsigned char* reader,unsigned char*buffer, int*count)
     { 
         int num = (unsigned int)*reader;
         sprintf(str, "%d", num);
-        
         reader++;
-
 
           for(int j = 0; j< strlen(str);j++ )
           {
@@ -483,17 +359,12 @@ char* ReadIPv4Address(unsigned char* reader,unsigned char*buffer, int*count)
             counter++;
             addrcounter++;
           }
-
         if(i<3)
         {
-            // printf(".");
             IP_addr[addrcounter] = '.';
             addrcounter++;
         }
-
     }
-
-    // printf("\nIP_addr: %s\n", IP_addr);
     return IP_addr;
 
 }
@@ -502,20 +373,16 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
     char *IP_addr;
     int addrcounter = 0;
     int counter = 0;
-
     IP_addr = (char *)malloc(40);
 
     for (int i = 0; i < 16; i++)
     {
-      // mulitply the bytes together so that way you can get this to work 
-      // and print out the ipv6 name 
         char str[9];
         int num = (unsigned int)*reader;
-        //printf("%02X",*reader);
         sprintf(str, "%02X", num);
-        //printf("%s", str);
         reader++;
-  	for(int j = 0; j< strlen(str);j++ )
+
+  	    for(int j = 0; j< strlen(str);j++ )
         {
           IP_addr[addrcounter] = str[j];
           counter++;
@@ -524,12 +391,11 @@ char* ReadIPv6Address(unsigned char* reader,unsigned char*buffer, int*count)
           
         if(i < 15 && i%2==1)
         {
-            //printf(":");
-            IP_addr[addrcounter] = ':';
-            addrcounter++;
+          IP_addr[addrcounter] = ':';
+          addrcounter++;
         }
     }
-    //printf("\n\nAddress: %s\n\n", IP_addr);
+
     return IP_addr;
 
 }
@@ -680,8 +546,4 @@ int main(int argc, char* argv[]){
   //208.67.222.222
   //192.58.128.30
   mR.sendPacket(mR.DNSRootAddr[0].c_str());
-  
-  
-  
-  
 }
