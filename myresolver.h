@@ -128,8 +128,8 @@ typedef struct addSection
 
 typedef struct RRSIG
 {
-  unsigned short Alg:8;
-  unsigned short label:8;
+  unsigned char Alg:8;
+  unsigned char label:8;
   unsigned int OriginTTL;
   unsigned int sigExp;
   unsigned int SigInc;
