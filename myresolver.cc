@@ -297,11 +297,12 @@ using std::endl;
             printf("%d\t", ntohs(*((unsigned short *)dnsAnswerSection)) ); //
             dnsAnswerSection+=2;
 
-            exit(0);
+        
 
             // // now read the names 
-            // rrsigRec->SignerName = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
-            // dnsAnswerSection+=nameSize;
+           // rrsigRec->SignerName = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
+            printf("%s\n", ReadName(dnsAnswerSection,buffer,&nameSize));
+            dnsAnswerSection+=nameSize;
 
             // rrsigRec->Signiture = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
             // dnsAnswerSection+=nameSize;
