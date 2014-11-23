@@ -308,8 +308,10 @@ using std::endl;
 
             for (int i = 0; i < dl; i++,dnsAnswerSection++)
             {
-              printf("%02X\t", *dnsAnswerSection);
+              printf("%02X ", *dnsAnswerSection);
             }
+
+            exit(0);
             // rrsigRec->Signiture = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
             // dnsAnswerSection+=nameSize;
 
@@ -318,7 +320,7 @@ using std::endl;
             // printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
             // printf("ip-adress: %s\n", DNSAnswers[i].rdata);
           printf("\n");  
-          exit(0);
+
             
 
       }
