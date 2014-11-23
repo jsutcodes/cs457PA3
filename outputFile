@@ -1,0 +1,13 @@
+> ./myresolver www.cnn.com A
+
+www.cnn.com.	600	IN	CNAME	www.cnn.com.vgtf.net.
+www.cnn.com.vgtf.net.	30	IN	CNAME	cnn-cop.gslb.vgtf.net.
+cnn-cop.gslb.vgtf.net.	30	IN	A	157.166.238.17
+cnn-cop.gslb.vgtf.net.	30	IN	A	157.166.239.177
+cnn-cop.gslb.vgtf.net.	30	IN	A	157.166.238.48
+
+> ./myresolver www.nlnetlabs.nl AAAA
+
+www.nlnetlabs.nl.	10200	IN	AAAA	2A04:B900:0000:0000:0001:0000:0000:0010
+www.nlnetlabs.nl.	10200	IN	RRSIG	AAAA	8	3	10200	1418867410	1416448210	42393	nlnetlabs.nl.
+C7H19SdKoGQulYMMkwN2LPddf4MfZLcuVzYHFNsJjgBEyP60I/wmHau0qWw1Ld93BJoo70v4FylnOdpXhNmXd0LdIvMpUVpYTGb6u5akvjgsH4lfYAxR+h5j8zu9od+5FPJqqXwdcI59V8cAj6RsVCo5cYizxtMUxNkdslqXr4U=
