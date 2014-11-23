@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include "base64.h"
 
 /***usings***/
 using std::memcpy;
@@ -304,17 +305,23 @@ using std::endl;
             printf("%s\n", ReadName(dnsAnswerSection,buffer,&nameSize));
             dnsAnswerSection+=nameSize;
 
-            short dl = ntohs(DNSAnswers[i].resource->RDLENGTH) - nameSize -18;
-            printf("THE NUMBER WE HAVE LEFT IS: %d\n", dl);
+            unsigned int dl = ntohs(DNSAnswers[i].resource->RDLENGTH) - nameSize -18;
 
-            for (short i = 0; i < dl; i++,dnsAnswerSection++)
-            {
-              printf("%02X ", *dnsAnswerSection);
-            }
+            string signature = base64_encode((unsigned char const*)dnsAnswerSection, dl);
 
-            exit(0);
-            rrsigRec->Signiture = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
-            dnsAnswerSection+=nameSize;
+            // printf("THE NUMBER WE HAVE LEFT IS: %d\n", dl);
+            // int counter = 0;
+            // while(counter <= dl)
+            // {
+            //   char field[3];
+            //   for (int i = 0; i < 3; ++i)
+            //   {
+            //     printf("%02X ", *dnsAnswerSection);
+            //     counter++;
+            //   }
+              
+            // }
+
 
             exit(-1);
 
