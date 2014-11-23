@@ -292,8 +292,8 @@ using std::endl;
             dnsAnswerSection+=4;
             printf("%d\t",ntohl(*dnsAnswerSection) );
             dnsAnswerSection+=4;
-            printf("%s\t", ntohs(*dnsAnswerSection));
-            dnsAnswerSection+=2;
+            // printf("%s\t", ntohs(*dnsAnswerSection));
+            // dnsAnswerSection+=2;
 
             exit(0);
             // printf("NEXT BYTES \n");
