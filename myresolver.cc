@@ -290,17 +290,11 @@ using std::endl;
 
             printf("%d\t",ntohl(*((unsigned int*)dnsAnswerSection))); // original TTL
             dnsAnswerSection+=4;
-            // printf("NEXT BYTES \n");
-            // for (int i = 0; i < 4; ++i)
-            // {
-            //   printf("%02x\t",*dnsAnswerSection);
-            //   dnsAnswerSection++;
-            // }
             printf("%d\t",ntohl(*((unsigned int *)dnsAnswerSection)) ); //sigExp
             dnsAnswerSection+=4;
             printf("%d\t",ntohl(*((unsigned int *)dnsAnswerSection)) ); //Sig Inc
             dnsAnswerSection+=4;
-            printf("%s\t", ntohs(*((unsigned short *)dnsAnswerSection)) ); //
+            printf("%d\t", ntohs(*((unsigned short *)dnsAnswerSection)) ); //
             dnsAnswerSection+=2;
 
             exit(0);
