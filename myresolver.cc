@@ -268,12 +268,8 @@ using std::endl;
         }
         else if(ntohs(DNSAnswers[i].resource->TYPE)==46) // this bracket is for RRSIG
         {
-          int nameSize = 0;
-          if (ntohs(DNSAnswers[i].resource->TYPE)==28)
-              printf("THE ANSER IS FOR AAAA \n");
-          else 
-            printf("THE ANSER IS FOR A \n");
-            string ARecType = (ntohs(DNSAnswers[i].resource->TYPE) == 28)? "AAAA":"A";
+            int nameSize = 0;
+            string ARecType = (ntohs(*((unsigned short *)dnsAnswerSection)))? "AAAA":"A";
             printf("%s\t", DNSAnswers[i].name);
             printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
             printf("IN\t");
