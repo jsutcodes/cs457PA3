@@ -286,7 +286,7 @@ using std::endl;
             printf("%01x\t",*dnsAnswerSection); //label 
             dnsAnswerSection++;
 
-            printf("%d\t",ntohl((unsigned int)*dnsAnswerSection)); // original TTL
+            printf("%02x\t",ntohl(*dnsAnswerSection)); // original TTL
             dnsAnswerSection+=4;
             printf("%d\t",ntohl(*dnsAnswerSection) );
             dnsAnswerSection+=4;
