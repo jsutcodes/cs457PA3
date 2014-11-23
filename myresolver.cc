@@ -280,7 +280,12 @@ using std::endl;
             // DnsAnser[i].rdata = start of DNS_RRSIG (it will be null)
             printf("RDLENGTH%d\n",ntohs(DNSAnswers[i].resource->RDLENGTH));
             // dnsAnswerSection+=2;// add two bytes to skip the type covered
-
+            printf("NEXT BYTES \n");
+            for (int i = 0; i < 4; ++i)
+            {
+              printf("%02x\t",*dnsAnswerSection);
+              dnsAnswerSection++;
+            }
              DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
              printf("%x\t",rrsigRec->Alg);
             // printf("%02x\t",rrsigRec->label);
