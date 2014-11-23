@@ -354,7 +354,7 @@ using std::endl;
         
       }
       
-      sendPacket((const char *)DNSAddRecords[0].rdata);
+      //sendPacket((const char *)DNSAddRecords[0].rdata);
       for(int i = 0; i < ntohs(dns->NSCOUNT); i++){
         for(int j = 0; j < ntohs(dns->ARCOUNT); j++){
           if(strcmp((const char *)DNSNameServers[i].rdata, (const char *)DNSAddRecords[j].name) == 0){
