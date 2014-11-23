@@ -278,7 +278,7 @@ using std::endl;
       {
 	
         DNSNameServers[i].name=ReadName(dnsANSection, buffer, &stop);
-        printf("i: %d\n",i );
+        //printf("i: %d\n",i );
         dnsANSection+=stop;
         DNSNameServers[i].resource = (R_DATA*)(dnsANSection);
         // int prevStop = stop;
@@ -312,7 +312,7 @@ using std::endl;
       for(int i = 0; i < ntohs(dns->ARCOUNT)-1; i++){
         
         
-        printf("===========Additional %d: ===========\n",i);
+        //printf("===========Additional %d: ===========\n",i);
         DNSAddRecords[i].name=ReadName(dnsANSection, buffer, &stop);
         dnsANSection+=stop;
         DNSAddRecords[i].resource = (R_DATA*)(dnsANSection);
