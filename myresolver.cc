@@ -139,8 +139,9 @@ using std::endl;
     DNSHeader *dnsHeadRecv = (DNSHeader*)&buffer;
     unsigned char *dnsQueryRecv = (unsigned char*)&buffer[sizeof(DNSHeader)];
     
-    printf("\nthe RCODE%02x\n",*(buffer+3)&0xF );
-    if(*(buffer+3)&0xF == 0x0011)
+    int Nxflag = *(buffer+3)&0xF;
+    printf("\nthe RCODE%02x\n",Nxflag);
+    if(Nxflag == 3)
     {
         printf("%s IS NXDOMAIN \n", URL.c_str());
         exit(-1);
