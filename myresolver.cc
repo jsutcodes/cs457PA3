@@ -194,7 +194,7 @@ using std::endl;
 
         // printf("===========ANSWER %d: ===========\n",i);
         DNSAnswers[i].name=ReadName(dnsAnswerSection, buffer, &stop);
-        printf("THE NAME IS: %s\n",qname );
+        printf("THE NAME IS: %s\n",DNSAnswers[i].name );
         dnsAnswerSection+=stop;
         DNSAnswers[i].resource = (R_DATA*)(dnsAnswerSection);
         // int prevStop = stop;
