@@ -288,7 +288,7 @@ using std::endl;
 
 
 
-            printf("%02x\t",ntohl(*((unsigned int*)dnsAnswerSection))); // original TTL
+            printf("%d\t",ntohl(*((unsigned int*)dnsAnswerSection))); // original TTL
             dnsAnswerSection+=4;
             printf("NEXT BYTES \n");
             for (int i = 0; i < 4; ++i)
