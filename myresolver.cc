@@ -286,22 +286,24 @@ using std::endl;
             printf("%01x\t",*dnsAnswerSection); //label 
             dnsAnswerSection++;
 
-            printf("%02x\t",ntohl(*dnsAnswerSection)); // original TTL
-            dnsAnswerSection+=4;
-            printf("%d\t",ntohl(*dnsAnswerSection) );
-            dnsAnswerSection+=4;
-            printf("%d\t",ntohl(*dnsAnswerSection) );
-            dnsAnswerSection+=4;
+            printf("NEXT BYTES \n");
+            for (int i = 0; i < 4; ++i)
+            {
+              printf("%02x\t",*dnsAnswerSection);
+              dnsAnswerSection++;
+            }
+
+            // printf("%02x\t",ntohl(*dnsAnswerSection)); // original TTL
+            // dnsAnswerSection+=4;
+            // printf("%d\t",ntohl(*dnsAnswerSection) );
+            // dnsAnswerSection+=4;
+            // printf("%d\t",ntohl(*dnsAnswerSection) );
+            // dnsAnswerSection+=4;
             // printf("%s\t", ntohs(*dnsAnswerSection));
             // dnsAnswerSection+=2;
 
             exit(0);
-            // printf("NEXT BYTES \n");
-            // for (int i = 0; i < 4; ++i)
-            // {
-            //   printf("%02x\t",*dnsAnswerSection);
-            //   dnsAnswerSection++;
-            // }
+
             // // now read the names 
             // rrsigRec->SignerName = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
             // dnsAnswerSection+=nameSize;
