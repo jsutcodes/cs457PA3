@@ -274,7 +274,7 @@ using std::endl;
       DNS_ResRec DNSNameServers[(dns->NSCOUNT)];
       int stop = 0;
       
-      for (int i = 0; i < ntohs(dns->NSCOUNT); ++i)
+      for (int i = 0; i < ntohs(dns->NSCOUNT)-2; ++i)
       {
 	
         DNSNameServers[i].name=ReadName(dnsANSection, buffer, &stop);
