@@ -277,7 +277,6 @@ using std::endl;
       for (int i = 0; i < ntohs(dns->NSCOUNT); ++i)
       {
 	
-        printf("===========ANSWER %d: ===========\n",i);
         DNSNameServers[i].name=ReadName(dnsANSection, buffer, &stop);
         // printf("%s\n",qname );
         dnsANSection+=stop;
@@ -359,7 +358,7 @@ using std::endl;
       for(int i = 0; i < ntohs(dns->NSCOUNT); i++){
         for(int j = 0; j < ntohs(dns->ARCOUNT); j++){
           if(strcmp((const char *)DNSNameServers[i].rdata, (const char *)DNSAddRecords[j].name) == 0){
-            //printf("%s %s %s\n", DNSNameServers[i].rdata, DNSAddRecords[j].name, DNSAddRecords[j].rdata);
+            printf("%s %s %s\n", DNSNameServers[i].rdata, DNSAddRecords[j].name, DNSAddRecords[j].rdata);
           }
             
 	}
