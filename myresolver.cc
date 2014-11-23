@@ -268,6 +268,7 @@ using std::endl;
         }
         else if(ntohs(DNSAnswers[i].resource->TYPE)==46) // this bracket is for RRSIG
         {
+          printf("WE MADE IT TI RRSIG\n");
           int nameSize = 0;
             string ARecType = (ntohs(DNSAnswers[i].resource->TYPE) == 28)? "AAAA":"A";
             printf("%s\t", DNSAnswers[i].name);
