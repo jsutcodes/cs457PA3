@@ -279,7 +279,7 @@ using std::endl;
             //pointer is currently at start of RRSIG package
             // DnsAnser[i].rdata = start of DNS_RRSIG (it will be null)
             printf("RDLENGTH%d\n",ntohs(DNSAnswers[i].resource->RDLENGTH));
-            dnsAnswerSection+=2;// add two bytes to skip the type covered
+            // dnsAnswerSection+=2;// add two bytes to skip the type covered
 
              DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
              printf("%x\t",rrsigRec->Alg);
