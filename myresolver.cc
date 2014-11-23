@@ -243,6 +243,10 @@ using std::endl;
             DNSAnswers[i].rdata = (unsigned char *) ReadIPv4Address(dnsAnswerSection,buffer,&stop);
             dnsAnswerSection+=4;
 	    printf("%s",DNSAnswers[i].rdata);
+	    if(i == ntohs(dns->ANCOUNT)-1){
+	      printf("\n");
+	      exit(0);
+	    }
         }
         
         else if (ntohs(DNSAnswers[i].resource->RDLENGTH)==16) // ipadress found
@@ -257,6 +261,10 @@ using std::endl;
             DNSAnswers[i].rdata = (unsigned char *) ReadIPv6Address(dnsAnswerSection,buffer,&stop);
             dnsAnswerSection+=16;
 	    printf("%s",DNSAnswers[i].rdata);
+	    if(i == ntohs(dns->ANCOUNT)-1){
+	      printf("\n");
+	      exit(0);
+	    }
         }
         else if(ntohs(DNSAnswers[i].resource->TYPE)==46) // this bracket is for RRSIG
         {
@@ -309,16 +317,15 @@ using std::endl;
       for (int i = 0; i < ntohs(dns->NSCOUNT); ++i)
       {
 	
-        printf("===========ANSWER %d: ===========\n",i);
         DNSNameServers[i].name=ReadName(dnsANSection, buffer, &stop);
-        // printf("%s\n",qname );
+        //printf("i: %d\n",i );
         dnsANSection+=stop;
         DNSNameServers[i].resource = (R_DATA*)(dnsANSection);
         // int prevStop = stop;
         // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
         dnsANSection+=sizeof(R_DATA)-2;
 	
-	if(ntohs(DNSNameServers[i].resource->CLASS) ==  2){
+	if(ntohs(DNSNameServers[i].resource->TYPE) ==  2){
 	  DNSNameServers[i].rdata = ReadName(dnsANSection,buffer,&stop);
           dnsANSection+=stop;
 	}
@@ -342,7 +349,7 @@ using std::endl;
       
       DNS_ResRec DNSAddRecords[(dns->ARCOUNT)];
       
-      for(int i = 0; i < ntohs(dns->ARCOUNT); i++){
+      for(int i = 0; i < ntohs(dns->ARCOUNT)-1; i++){
         
         
         //printf("===========Additional %d: ===========\n",i);
@@ -357,7 +364,7 @@ using std::endl;
 	
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
 
-        if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x04) // ipaddress found
+        if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==4) // ipaddress found
         {
 
             //printf("CNAME: %s\t", DNSAddRecords[i].name);
@@ -387,11 +394,13 @@ using std::endl;
         
       }
       
-      sendPacket((const char *)DNSAddRecords[0].rdata);
-      for(int i = 0; i < ntohs(dns->NSCOUNT); i++){
-        for(int j = 0; j < ntohs(dns->ARCOUNT); j++){
+      
+      for(int i = 0; i < ntohs(dns->NSCOUNT)-2; i++){
+        for(int j = 0; j < ntohs(dns->ARCOUNT)-1; j++){
           if(strcmp((const char *)DNSNameServers[i].rdata, (const char *)DNSAddRecords[j].name) == 0){
             //printf("%s %s %s\n", DNSNameServers[i].rdata, DNSAddRecords[j].name, DNSAddRecords[j].rdata);
+            sendPacket((const char *)DNSAddRecords[j].rdata);
+            break;
           }
             
 	}
