@@ -304,14 +304,19 @@ using std::endl;
             printf("%s\n", ReadName(dnsAnswerSection,buffer,&nameSize));
             dnsAnswerSection+=nameSize;
 
-            short dl = ntohs(DNSAnswers[i].resource->RDLENGTH) - nameSize -18;
+            printf("%s\n", ReadName(dnsAnswerSection,buffer,&nameSize));
+            dnsAnswerSection+=nameSize;
 
-            for (short i = 0; i < dl; i++,dnsAnswerSection++)
-            {
-              printf("%02X ", *dnsAnswerSection);
-            }
+            exit(-1);
 
-            exit(0);
+            // short dl = ntohs(DNSAnswers[i].resource->RDLENGTH) - nameSize -18;
+
+            // for (short i = 0; i < dl; i++,dnsAnswerSection++)
+            // {
+            //   printf("%02X ", *dnsAnswerSection);
+            // }
+
+            // exit(0);
             // rrsigRec->Signiture = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
             // dnsAnswerSection+=nameSize;
 
