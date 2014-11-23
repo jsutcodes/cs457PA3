@@ -241,6 +241,9 @@ using std::endl;
             DNSAnswers[i].rdata = (unsigned char *) ReadIPv4Address(dnsAnswerSection,buffer,&stop);
             dnsAnswerSection+=4;
 	    printf("%s",DNSAnswers[i].rdata);
+	    if(i == ntohs(dns->ANCOUNT)-1){
+	      exit(0);
+	    }
         }
         
         else if (ntohs(DNSAnswers[i].resource->RDLENGTH)==16) // ipadress found
@@ -255,6 +258,9 @@ using std::endl;
             DNSAnswers[i].rdata = (unsigned char *) ReadIPv6Address(dnsAnswerSection,buffer,&stop);
             dnsAnswerSection+=16;
 	    printf("%s",DNSAnswers[i].rdata);
+	    if(i == ntohs(dns->ANCOUNT)-1){
+	      exit(0);
+	    }
         }
             // printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
             // printf("ip-adress: %s\n", DNSAnswers[i].rdata);
