@@ -23,5 +23,5 @@ clean:
 	rm -rf *.o myresolver 
 
 package:
-	tar -cvf Jordan_Sutton_P3.tar makefile myresolver.h myresolver.cc README
-	tar -cvf Matthew_Frahry_P3.tar makefile myresolver.h myresolver.cc README  
+	tar -cvf Jordan_Sutton_P3.tar makefile myresolver.h myresolver.cc README outputFile base64.cc base64.h
+	tar -cvf Matthew_Frahry_P3.tar makefile myresolver.h myresolver.cc README outputFile base64.cc base64.h
