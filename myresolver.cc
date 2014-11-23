@@ -139,7 +139,7 @@ using std::endl;
     DNSHeader *dnsHeadRecv = (DNSHeader*)&buffer;
     unsigned char *dnsQueryRecv = (unsigned char*)&buffer[sizeof(DNSHeader)];
     
-    if(*(buffer+3)&0xF == 3)
+    if(*(buffer+3)&0xF == 0x0011)
     {
         printf("%s IS NXDOMAIN \n", URL.c_str());
         exit(-1);
