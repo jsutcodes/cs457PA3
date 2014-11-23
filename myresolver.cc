@@ -201,7 +201,7 @@ using std::endl;
         // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
         dnsAnswerSection+=sizeof(R_DATA)-2;
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
-        if(ntohs(DNSAnswers[i].resource->RDLENGTH)!=4 && ntohs(DNSAnswers[i].resource->RDLENGTH)!=16) // not an ipadress its a cname????
+        if(ntohs(DNSAnswers[i].resource->RDLENGTH)!=4 && ntohs(DNSAnswers[i].resource->RDLENGTH)!=16 ) // not an ipadress its a cname????
         {
             DNSAnswers[i].rdata = ReadName(dnsAnswerSection,buffer,&stop);
             dnsAnswerSection+=stop;
@@ -221,6 +221,8 @@ using std::endl;
                     printf("CNAME\t%s\n",DNSAnswers[i].rdata);
                     URL = (char *)DNSAnswers[i].rdata;
                     sendPacket("192.58.128.30");
+                    case 46:
+                    printf("RRSIG\t");
                 break;
             }
 
@@ -255,6 +257,36 @@ using std::endl;
             DNSAnswers[i].rdata = (unsigned char *) ReadIPv6Address(dnsAnswerSection,buffer,&stop);
             dnsAnswerSection+=16;
 	    printf("%s",DNSAnswers[i].rdata);
+        }
+        else if(ntohs(DNSAnswers[i].resource->TYPE)==46) // this bracket is for RRSIG
+        {
+          int nameSize = 0;
+            string ARecType = (ntohs(DNSAnswers[i].resource->TYPE) == 28)? "AAAA":"A";
+            printf("%s\t", DNSAnswers[i].name);
+            printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
+            printf("IN\t");
+            printf("%s\t",ARecType.c_str());
+
+            //pointer is currently at start of RRSIG package
+            // DnsAnser[i].rdata = start of DNS_RRSIG (it will be null)
+
+            dnsAnswerSection+=2;// add two bytes to skip the type covered
+
+            DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
+            printf("%x\t",rrsigRec->Alg);
+            printf("%x\t",rrsigRec->label);
+            printf("%d\t",ntohl(rrsigRec->OriginTTL));
+            printf("%d\t",ntohl(rrsigRec->sigExp) );
+            printf("%d\t",ntohl(rrsigRec->SigInc) );
+            printf("%s\t", ntohs(rrsigRec->keyTag));
+            // now read the names 
+            rrsigRec->SignerName = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
+            dnsAnswerSection+=nameSize;
+
+            rrsigRec->Signiture = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
+            dnsAnswerSection+=nameSize;
+
+
         }
             // printf("dnsAnswerSection:\ntype: %d,\nclass: %d,\nttl: %d,\nLength: %d \n", ntohs(DNSAnswers[i].resource->TYPE),ntohs(DNSAnswers[i].resource->CLASS),ntohl(DNSAnswers[i].resource->TTL),ntohs(DNSAnswers[i].resource->RDLENGTH));
             // printf("ip-adress: %s\n", DNSAnswers[i].rdata);

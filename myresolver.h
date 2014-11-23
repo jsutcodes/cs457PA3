@@ -84,6 +84,7 @@ typedef struct question {
   // CNAME      = 0x0005 (5)
   //name servers= 0x0002 (2)
   //mail servers= 0x000f (15)
+  // RRSIG      = 0x002e (46)
  
   //Specifies class of query. Will be internet most of time. 0x0001
   unsigned short QCLASS;
@@ -124,6 +125,19 @@ typedef struct addSection
 
 
 }DNS_RRSIG_Request;
+
+typedef struct RRSIG
+{
+  unsigned char Alg:1;
+  unsigned char label:1;
+  unsigned int OriginTTL;
+  unsigned int sigExp;
+  unsigned int SigInc;
+  unsigned short keyTag; 
+  unsigned char* SignerName;
+  unsigned char* Signiture; 
+
+} DNS_RRSIG;
 
 /****************************************************
 * DNS QUERY PACKET
