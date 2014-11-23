@@ -354,6 +354,7 @@ using std::endl;
         
       }
       
+      printf("HERE\n");
       //sendPacket((const char *)DNSAddRecords[0].rdata);
       for(int i = 0; i < ntohs(dns->NSCOUNT); i++){
         for(int j = 0; j < ntohs(dns->ARCOUNT); j++){
