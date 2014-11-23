@@ -139,9 +139,11 @@ using std::endl;
     DNSHeader *dnsHeadRecv = (DNSHeader*)&buffer;
     unsigned char *dnsQueryRecv = (unsigned char*)&buffer[sizeof(DNSHeader)];
     
-    printf("\nthe RCODE%d\n",*(buffer+3)&0xF );
-    if(ntohs(dnsHeadRecv->RCODE) == 3)
+    if(*(buffer+3)&0xF == 3)
+    {
         printf("%s IS NXDOMAIN \n", URL.c_str());
+        exit(-1);
+    }
     /*
     printf("\nThe response contains : ");
     printf("\n %d Questions.",ntohs(dns->QDCOUNT));
