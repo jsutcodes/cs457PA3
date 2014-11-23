@@ -281,8 +281,8 @@ using std::endl;
 
             dnsAnswerSection+=2;// add two bytes to skip the type covered
 
-            // DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
-            // printf("%x\t",rrsigRec->Alg);
+             DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
+             printf("%x\t",rrsigRec->Alg);
             // printf("%x\t",rrsigRec->label);
             // printf("%d\t",ntohl(rrsigRec->OriginTTL));
             // printf("%d\t",ntohl(rrsigRec->sigExp) );
