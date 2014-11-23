@@ -283,10 +283,10 @@ using std::endl;
             DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
             printf("%01X\t",*dnsAnswerSection);
             dnsAnswerSection++;        
-            printf("%01x\t",*dnsAnswerSection);
+            printf("%01x\t",*dnsAnswerSection); //label 
             dnsAnswerSection++;
 
-            printf("%d\t",ntohl(*dnsAnswerSection));
+            printf("%d\t",ntohs(*dnsAnswerSection)); // original TTL
             dnsAnswerSection+=4;
             printf("%d\t",ntohl(*dnsAnswerSection) );
             dnsAnswerSection+=4;
