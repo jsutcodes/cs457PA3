@@ -260,11 +260,11 @@ using std::endl;
                 // break;
             DNSAnswers[i].rdata = (unsigned char *) ReadIPv6Address(dnsAnswerSection,buffer,&stop);
             dnsAnswerSection+=16;
-	    printf("%s",DNSAnswers[i].rdata);
-	    if(i == ntohs(dns->ANCOUNT)-1){
-	      printf("\n");
-	      exit(0);
-	    }
+	          printf("%s",DNSAnswers[i].rdata);
+      	    if(i == ntohs(dns->ANCOUNT)-1){
+      	      printf("\n");
+      	      exit(0);
+      	    }
         }
         else if(ntohs(DNSAnswers[i].resource->TYPE)==46) // this bracket is for RRSIG
         {
@@ -281,19 +281,19 @@ using std::endl;
 
             dnsAnswerSection+=2;// add two bytes to skip the type covered
 
-            DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
-            printf("%x\t",rrsigRec->Alg);
-            printf("%x\t",rrsigRec->label);
-            printf("%d\t",ntohl(rrsigRec->OriginTTL));
-            printf("%d\t",ntohl(rrsigRec->sigExp) );
-            printf("%d\t",ntohl(rrsigRec->SigInc) );
-            printf("%s\t", ntohs(rrsigRec->keyTag));
-            // now read the names 
-            rrsigRec->SignerName = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
-            dnsAnswerSection+=nameSize;
+            // DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
+            // printf("%x\t",rrsigRec->Alg);
+            // printf("%x\t",rrsigRec->label);
+            // printf("%d\t",ntohl(rrsigRec->OriginTTL));
+            // printf("%d\t",ntohl(rrsigRec->sigExp) );
+            // printf("%d\t",ntohl(rrsigRec->SigInc) );
+            // printf("%s\t", ntohs(rrsigRec->keyTag));
+            // // now read the names 
+            // rrsigRec->SignerName = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
+            // dnsAnswerSection+=nameSize;
 
-            rrsigRec->Signiture = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
-            dnsAnswerSection+=nameSize;
+            // rrsigRec->Signiture = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
+            // dnsAnswerSection+=nameSize;
 
 
         }
