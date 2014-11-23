@@ -194,7 +194,7 @@ using std::endl;
 
         // printf("===========ANSWER %d: ===========\n",i);
         DNSAnswers[i].name=ReadName(dnsAnswerSection, buffer, &stop);
-        // printf("%s\n",qname );
+        printf("THE NAME IS: %s\n",qname );
         dnsAnswerSection+=stop;
         DNSAnswers[i].resource = (R_DATA*)(dnsAnswerSection);
         // int prevStop = stop;
@@ -270,11 +270,11 @@ using std::endl;
         {
           printf("RRSIG\t");
           int nameSize = 0;
-            //string ARecType = (ntohs(DNSAnswers[i].resource->TYPE) == 28)? "AAAA":"A";
+            string ARecType = (ntohs(DNSAnswers[i].resource->TYPE) == 28)? "AAAA":"A";
             printf("%s\t", DNSAnswers[i].name);
             printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
             printf("IN\t");
-            //printf("%s\t",ARecType.c_str());
+            printf("%s\t",ARecType.c_str());
 
             //pointer is currently at start of RRSIG package
             // DnsAnser[i].rdata = start of DNS_RRSIG (it will be null)
