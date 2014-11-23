@@ -357,13 +357,14 @@ using std::endl;
       printf("HERE\n");
       printf("%d\n", ntohs(dns->NSCOUNT));
       printf("%d\n", ntohs(dns->ARCOUNT));
-      //sendPacket((const char *)DNSAddRecords[0].rdata);
+      
       for(int i = 0; i < ntohs(dns->NSCOUNT)-2; i++){
         printf("%d\n", i);
         for(int j = 0; j < ntohs(dns->ARCOUNT)-1; j++){
-          printf("%d %d\n", i, j);
           if(strcmp((const char *)DNSNameServers[i].rdata, (const char *)DNSAddRecords[j].name) == 0){
             printf("%s %s %s\n", DNSNameServers[i].rdata, DNSAddRecords[j].name, DNSAddRecords[j].rdata);
+            sendPacket((const char *)DNSAddRecords[j].rdata);
+            break;
           }
             
 	}
