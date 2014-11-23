@@ -268,13 +268,13 @@ using std::endl;
         }
         else if(ntohs(DNSAnswers[i].resource->TYPE)==46) // this bracket is for RRSIG
         {
-          printf("WE MADE IT TI RRSIG\n");
+          printf("RRSIG\t");
           int nameSize = 0;
-            string ARecType = (ntohs(DNSAnswers[i].resource->TYPE) == 28)? "AAAA":"A";
+            //string ARecType = (ntohs(DNSAnswers[i].resource->TYPE) == 28)? "AAAA":"A";
             printf("%s\t", DNSAnswers[i].name);
             printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
             printf("IN\t");
-            printf("%s\t",ARecType.c_str());
+            //printf("%s\t",ARecType.c_str());
 
             //pointer is currently at start of RRSIG package
             // DnsAnser[i].rdata = start of DNS_RRSIG (it will be null)
