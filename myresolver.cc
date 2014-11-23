@@ -38,7 +38,7 @@ using std::endl;
     DNSRootAddr.push_back(ROOT_SERVER_4);
   }
   
-  
+  //method that sends the packet to the correct server 
   void MyResolver::sendPacket(const char * destAddress){
     
     unsigned char buffer[65536], *qname;
@@ -195,7 +195,6 @@ using std::endl;
 
         // printf("===========ANSWER %d: ===========\n",i);
         DNSAnswers[i].name=ReadName(dnsAnswerSection, buffer, &stop);
-        printf("THE NAME IS: %s\n",DNSAnswers[i].name );
         dnsAnswerSection+=stop;
         DNSAnswers[i].resource = (R_DATA*)(dnsAnswerSection);
         // int prevStop = stop;
@@ -269,12 +268,16 @@ using std::endl;
         }
         else if(ntohs(DNSAnswers[i].resource->TYPE)==46) // this bracket is for RRSIG
         {
-          printf("RRSIG\t");
           int nameSize = 0;
+          if (ntohs(DNSAnswers[i].resource->TYPE)==28)
+              printf("THE ANSER IS FOR AAAA \n");
+          else 
+            printf("THE ANSER IS FOR A \n");
             string ARecType = (ntohs(DNSAnswers[i].resource->TYPE) == 28)? "AAAA":"A";
             printf("%s\t", DNSAnswers[i].name);
             printf("%d\t", ntohl(DNSAnswers[i].resource->TTL));
             printf("IN\t");
+            printf("RRSIG\t");
             printf("%s\t",ARecType.c_str());
 
             //pointer is currently at start of RRSIG package
@@ -325,7 +328,6 @@ using std::endl;
             // }
 
             if(i == ntohs(dns->ANCOUNT)-1){
-              printf("\n");
               exit(0);
             }
 
