@@ -279,12 +279,7 @@ using std::endl;
             //pointer is currently at start of RRSIG package
             // DnsAnser[i].rdata = start of DNS_RRSIG (it will be null)
             dnsAnswerSection+=2;// add two bytes to skip the type covered
-            printf("NEXT BYTES \n");
-            for (int i = 0; i < 4; ++i)
-            {
-              printf("%02x\t",*dnsAnswerSection);
-              dnsAnswerSection++;
-            }
+
              DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
              printf("%d\t",rrsigRec->Alg);
             // printf("%02x\t",rrsigRec->label);
@@ -292,6 +287,13 @@ using std::endl;
             // printf("%d\t",ntohl(rrsigRec->sigExp) );
             // printf("%d\t",ntohl(rrsigRec->SigInc) );
             // printf("%s\t", ntohs(rrsigRec->keyTag));
+
+            // printf("NEXT BYTES \n");
+            // for (int i = 0; i < 4; ++i)
+            // {
+            //   printf("%02x\t",*dnsAnswerSection);
+            //   dnsAnswerSection++;
+            // }
             // // now read the names 
             // rrsigRec->SignerName = (unsigned char*) ReadName(dnsAnswerSection,buffer,&nameSize);
             // dnsAnswerSection+=nameSize;
