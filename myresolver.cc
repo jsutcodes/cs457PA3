@@ -285,13 +285,13 @@ using std::endl;
         // printf("INCREMENTING THIS THIS MUCH %d\n",sizeof(unsigned int) );
         dnsANSection+=sizeof(R_DATA)-2;
 	
-	if(ntohs(DNSNameServers[i].resource->CLASS) ==  2){
+	//if(ntohs(DNSNameServers[i].resource->CLASS) ==  2){
 	  DNSNameServers[i].rdata = ReadName(dnsANSection,buffer,&stop);
           dnsANSection+=stop;
-	}
-	else{
-	  dnsANSection+=ntohs(DNSNameServers[i].resource->RDLENGTH);
-	}
+	//}
+	//else{
+	  //dnsANSection+=ntohs(DNSNameServers[i].resource->RDLENGTH);
+	//}
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
 
         
@@ -324,7 +324,7 @@ using std::endl;
 	
         // printf("Stop is: %d and sizeof Rdata is: %d\n",stop,sizeof(R_DATA) );//TODO: without pragma size is 12 with pragma size is 10 
 
-        if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==0x04) // ipaddress found
+        if (ntohs(DNSAddRecords[i].resource->RDLENGTH)==4) // ipaddress found
         {
 
             //printf("CNAME: %s\t", DNSAddRecords[i].name);
