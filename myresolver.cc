@@ -308,6 +308,7 @@ using std::endl;
             unsigned int dl = ntohs(DNSAnswers[i].resource->RDLENGTH) - nameSize -18;
 
             string signature = base64_encode((unsigned char const*)dnsAnswerSection, dl);
+            printf("%s\n",signature );
 
             // printf("THE NUMBER WE HAVE LEFT IS: %d\n", dl);
             // int counter = 0;

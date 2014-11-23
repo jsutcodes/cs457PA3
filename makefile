@@ -10,11 +10,14 @@ LINK = -lpthread
 
 all: myresolver 
 
-myresolver: myresolver.o 
-	$(CC) $(FLAGS) -o myresolver myresolver.o
+myresolver: myresolver.o base64.o
+	$(CC) $(FLAGS) -o myresolver myresolver.o base64.o
 
-myresolver.o: myresolver.cc myresolver.h
+myresolver.o: myresolver.cc myresolver.h 
 	$(CC) $(FLAGS) -c myresolver.cc
+
+base64.o: base64.cc base64.h
+	$(CC) $(FLAGS) -c base64.cc
 
 clean:
 	rm -rf *.o myresolver 
