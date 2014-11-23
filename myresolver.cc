@@ -282,6 +282,7 @@ using std::endl;
 
              DNS_RRSIG* rrsigRec =(DNS_RRSIG*)&(dnsAnswerSection); 
              printf("%d\t",rrsigRec->Alg);
+             exit(0);
             // printf("%02x\t",rrsigRec->label);
             // printf("%d\t",ntohl(rrsigRec->OriginTTL));
             // printf("%d\t",ntohl(rrsigRec->sigExp) );
