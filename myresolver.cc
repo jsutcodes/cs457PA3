@@ -324,8 +324,10 @@ using std::endl;
               
             // }
 
-
-            exit(-1);
+            if(i == ntohs(dns->ANCOUNT)-1){
+              printf("\n");
+              exit(0);
+            }
 
 
 
